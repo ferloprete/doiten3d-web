@@ -13,16 +13,15 @@ command -v git >/dev/null || { echo "ABORTO: falta git en el servidor (apt insta
 [ -d "$REPO/.git" ] || git clone -q "$REPO_URL" "$REPO"
 
 # El actualizador vive fuera del repositorio, asi lo que se suba a GitHub
-# nunca se ejecuta en el servidor: solo se copian index.html y videos/.
+# nunca se ejecuta en el servidor: solo se copian los archivos de la web
+# (todo menos .git, servidor/ y los archivos de documentacion).
 cat > /usr/local/bin/doiten3d-actualizar <<EOF
 #!/bin/bash
 set -e
 cd "$REPO"
 git fetch -q origin main
 git reset -q --hard origin/main
-mkdir -p "$HTML/videos"
-cp index.html "$HTML/index.html"
-cp -r videos/. "$HTML/videos/"
+find . -mindepth 1 -maxdepth 1 ! -name .git ! -name servidor ! -name README.md ! -name .gitignore -exec cp -r {} "$HTML/" \;
 chmod -R a+rX "$HTML"
 EOF
 chmod 755 /usr/local/bin/doiten3d-actualizar
@@ -34,3 +33,4 @@ chmod 644 /etc/cron.d/doiten3d-web
 echo "Listo. La web se actualiza sola cada 5 minutos desde GitHub."
 curl -s -o /dev/null -w "pagina: HTTP %{http_code}\n" http://localhost:3648/
 curl -s -o /dev/null -w "video:  HTTP %{http_code}\n" http://localhost:3648/videos/fidgets.mp4
+curl -s -o /dev/null -w "logos:  HTTP %{http_code}\n" http://localhost:3648/marcas/mushu.png
