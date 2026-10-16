@@ -210,6 +210,55 @@ a.reel{text-decoration:none}
 footer{padding-block:24px;color:var(--muted);font-size:15px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
 footer a{color:inherit}
 
+/* Dummy 13 */
+.dummy-wrap{position:fixed;left:0;bottom:calc(6px + env(safe-area-inset-bottom,0px));z-index:40;width:84px;pointer-events:none;will-change:transform}
+.dummy-body{display:block;width:100%;padding:0;border:0;background:none;cursor:pointer;pointer-events:auto;filter:drop-shadow(0 6px 6px rgba(0,20,40,.25))}
+.dummy-body:focus-visible{outline:3px solid var(--naranja);outline-offset:4px;border-radius:12px}
+.dummy-body svg{display:block;width:100%;height:auto;overflow:visible}
+.d-red{fill:var(--d-body,#e2352b);transition:fill .4s}.d-blk{fill:var(--d-joint,#1a1a1a);transition:fill .4s}.d-line{stroke:var(--d-line,#b52219);stroke-width:1.5;fill:none}
+.d-num{font:700 11px/1 sans-serif;fill:var(--d-line,#b52219)}
+.d-all,.d-arm,.d-fore,.d-leg,.d-shin,.d-head{transform-box:view-box;transition:transform .35s cubic-bezier(.3,1.5,.5,1)}
+.d-armR{transform-origin:30px 42px}.d-armL{transform-origin:72px 42px}
+.d-foreR{transform-origin:27px 72px}.d-foreL{transform-origin:75px 72px}
+.d-legR{transform-origin:44px 106px}.d-legL{transform-origin:58px 106px}
+.d-shinR{transform-origin:44px 147px}.d-shinL{transform-origin:58px 147px}
+.d-head{transform-origin:51px 31px}
+.d-all{transform-origin:50px 195px;animation:d-idle 3.2s ease-in-out infinite}
+@keyframes d-idle{50%{transform:rotate(1.5deg) translateY(-1px)}}
+.mira-izq .dummy-body svg{transform:scaleX(-1)}
+/* caminar */
+.walk .d-all{animation:d-bob .5s ease-in-out infinite}
+.walk .d-legR{animation:d-stepA .5s ease-in-out infinite}.walk .d-legL{animation:d-stepB .5s ease-in-out infinite}
+.walk .d-shinR{animation:d-knee .5s ease-in-out infinite}.walk .d-shinL{animation:d-knee .5s ease-in-out infinite .25s}
+.walk .d-armR{animation:d-stepB .5s ease-in-out infinite}.walk .d-armL{animation:d-stepA .5s ease-in-out infinite}
+@keyframes d-stepA{0%,100%{transform:rotate(22deg)}50%{transform:rotate(-22deg)}}
+@keyframes d-stepB{0%,100%{transform:rotate(-22deg)}50%{transform:rotate(22deg)}}
+@keyframes d-knee{0%,100%{transform:rotate(0)}50%{transform:rotate(18deg)}}
+@keyframes d-bob{0%,50%,100%{transform:translateY(0)}25%,75%{transform:translateY(-3px)}}
+/* poses */
+.p-wave .d-armL{transform:rotate(-150deg)}.p-wave .d-foreL{animation:d-wave .45s ease-in-out infinite}.p-wave .d-head{transform:rotate(-8deg)}
+@keyframes d-wave{0%,100%{transform:rotate(-25deg)}50%{transform:rotate(30deg)}}
+.p-flex .d-armL{transform:rotate(-95deg)}.p-flex .d-foreL{transform:rotate(-120deg)}.p-flex .d-armR{transform:rotate(30deg)}.p-flex .d-foreR{transform:rotate(-100deg)}.p-flex .d-head{transform:rotate(6deg)}.p-flex .d-legR{transform:rotate(8deg)}
+.p-point .d-armR{transform:rotate(95deg)}.p-point .d-foreR{transform:rotate(-8deg)}.p-point .d-head{transform:rotate(-10deg)}
+.p-jump .d-all{animation:d-jump .7s cubic-bezier(.3,1.4,.5,1) 2}.p-jump .d-armL{transform:rotate(-160deg)}.p-jump .d-armR{transform:rotate(160deg)}
+@keyframes d-jump{0%,100%{transform:translateY(0) scale(1)}15%{transform:translateY(0) scale(1.08,.9)}50%{transform:translateY(-34px) scale(.96,1.05)}}
+.p-dance .d-all{animation:d-dance .6s ease-in-out infinite}.p-dance .d-armL{animation:d-stepA .6s ease-in-out infinite}.p-dance .d-armR{animation:d-stepA .6s ease-in-out infinite .3s}.p-dance .d-legR{transform:rotate(12deg)}.p-dance .d-head{animation:d-stepB .6s ease-in-out infinite}
+@keyframes d-dance{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg) translateY(-4px)}}
+/* globo */
+.dummy-bubble{position:absolute;bottom:calc(100% + 6px);left:0;width:max-content;max-width:min(240px,calc(100vw - 40px));background:var(--surface);color:var(--ink);border:2px solid var(--ink);border-radius:16px;padding:8px 30px 9px 12px;
+  font-size:15px;line-height:1.3;box-shadow:0 4px 0 var(--ink);opacity:0;transform:translateY(8px) scale(.9);transition:opacity .2s,transform .25s cubic-bezier(.3,1.6,.5,1);pointer-events:none}
+.dummy-bubble.on{opacity:1;transform:none;pointer-events:auto}
+.dummy-bubble::after{content:"";position:absolute;top:100%;left:28px;border:8px solid transparent;border-top-color:var(--ink)}
+.lado-der .dummy-bubble{left:auto;right:0}
+.lado-der .dummy-bubble::after{left:auto;right:28px}
+.d-num{transform-box:fill-box;transform-origin:center}
+.mira-izq .d-num{transform:scaleX(-1)}
+.dummy-x{position:absolute;top:2px;right:4px;width:24px;height:24px;border:0;background:none;color:var(--muted);font-size:18px;line-height:1;cursor:pointer;border-radius:50%}
+.dummy-x:hover{color:var(--ink)}
+.dummy-x:focus-visible{outline:2px solid var(--naranja)}
+@media (max-width:560px){.dummy-wrap{width:62px}.dummy-bubble{font-size:14px}}
+@media (prefers-reduced-motion:reduce){.d-all{animation:none}}
+
 @media (max-width:760px){
   .hero,.play{grid-template-columns:1fr}
   .steps{grid-template-columns:1fr}
@@ -419,6 +468,121 @@ footer a{color:inherit}
     <a href="https://www.instagram.com/doiten3d/" target="_blank" rel="noopener">Seguinos en Instagram</a>
   </footer>
 </div>
+
+<div class="dummy-wrap" id="dummy" hidden>
+  <div class="dummy-bubble" id="dummyBubble" role="status" aria-live="polite">
+    <span id="dummyText"></span>
+    <button class="dummy-x" id="dummyX" type="button" aria-label="Esconder a Dummy">×</button>
+  </div>
+  <button class="dummy-body" id="dummyBody" type="button" aria-label="Dummy 13, nuestra figura articulada: tocalo">
+    <svg viewBox="0 0 100 200" aria-hidden="true">
+      <g class="d-all">
+        <g class="d-leg d-legR"><rect x="37" y="104" width="14" height="40" rx="3" class="d-red"/><circle cx="44" cy="147" r="5" class="d-blk"/>
+          <g class="d-shin d-shinR"><rect x="38" y="150" width="12" height="34" rx="3" class="d-red"/><rect x="33" y="183" width="20" height="10" rx="3" class="d-red"/><rect x="40" y="180" width="8" height="5" class="d-blk"/></g></g>
+        <g class="d-leg d-legL"><rect x="51" y="104" width="14" height="40" rx="3" class="d-red"/><circle cx="58" cy="147" r="5" class="d-blk"/>
+          <g class="d-shin d-shinL"><rect x="52" y="150" width="12" height="34" rx="3" class="d-red"/><rect x="51" y="183" width="20" height="10" rx="3" class="d-red"/><rect x="54" y="180" width="8" height="5" class="d-blk"/></g></g>
+        <g class="d-torso">
+          <rect x="35" y="88" width="32" height="18" rx="4" class="d-red"/>
+          <rect x="42" y="76" width="18" height="14" rx="2" class="d-blk"/>
+          <path d="M31 38 H71 L68 78 H34 Z" class="d-red"/>
+          <text x="56" y="56" class="d-num">13</text>
+          <rect x="47" y="29" width="8" height="10" class="d-blk"/>
+          <g class="d-head"><rect x="39" y="2" width="24" height="29" rx="7" class="d-red"/><path d="M41 18 H61" class="d-line"/></g>
+        </g>
+        <g class="d-arm d-armR"><circle cx="30" cy="42" r="6" class="d-blk"/><rect x="21" y="40" width="12" height="30" rx="3" class="d-red"/><circle cx="27" cy="72" r="5" class="d-blk"/>
+          <g class="d-fore d-foreR"><rect x="21" y="74" width="12" height="26" rx="3" class="d-red"/><rect x="22" y="99" width="10" height="11" rx="3" class="d-blk"/></g></g>
+        <g class="d-arm d-armL"><circle cx="72" cy="42" r="6" class="d-blk"/><rect x="69" y="40" width="12" height="30" rx="3" class="d-red"/><circle cx="75" cy="72" r="5" class="d-blk"/>
+          <g class="d-fore d-foreL"><rect x="69" y="74" width="12" height="26" rx="3" class="d-red"/><rect x="70" y="99" width="10" height="11" rx="3" class="d-blk"/></g></g>
+      </g>
+    </svg>
+  </button>
+</div>
+<script>
+(function(){
+  /* ---------- Dummy 13: la figura articulada que recorre la web ---------- */
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let oculto=false;try{oculto=localStorage.getItem('dummyOculto')==='1'}catch(e){}
+  if(oculto)return;
+  const wrap=document.getElementById('dummy'),body=document.getElementById('dummyBody'),bubble=document.getElementById('dummyBubble'),txt=document.getElementById('dummyText');
+  wrap.hidden=false;
+  const filamentos=[['#e2352b','#1a1a1a','#a8201a','rojo'],['#f07f2d','#1a1a1a','#b85512','naranja'],['#8f1b26','#f2c230','#5e0f17','bordó y amarillo'],['#1ebbd7','#e68b3a','#0e8aa1','turquesa DO-IT-3D'],['#f2f0ea','#1a1a1a','#b9b4a8','blanco perla'],['#6bbf59','#1a1a1a','#3f8a30','verde']];
+  let fil=-1;
+  function filamento(){let i;do{i=Math.floor(Math.random()*filamentos.length)}while(i===fil);fil=i;const f=filamentos[i];
+    wrap.style.setProperty('--d-body',f[0]);wrap.style.setProperty('--d-joint',f[1]);wrap.style.setProperty('--d-line',f[2]);return f[3]}
+  filamento();
+  const W=()=>wrap.offsetWidth||90;
+  let x=innerWidth+20,cola=Promise.resolve(),timer=null,poseTimer=null;
+  const place=()=>{wrap.style.transform=`translateX(${x}px)`};
+  place();wrap.classList.add('lado-der');
+  const wait=ms=>new Promise(r=>setTimeout(r,ms));
+  function pose(nombre,ms=1800){
+    clearTimeout(poseTimer);
+    wrap.classList.remove('p-wave','p-flex','p-point','p-jump','p-dance');
+    void wrap.offsetWidth;
+    if(nombre)wrap.classList.add('p-'+nombre);
+    if(nombre&&ms)poseTimer=setTimeout(()=>wrap.classList.remove('p-'+nombre),ms);
+  }
+  function decir(t,ms=4200){
+    txt.textContent=t;bubble.classList.add('on');
+    clearTimeout(timer);timer=setTimeout(()=>bubble.classList.remove('on'),ms);
+  }
+  function caminarA(destino){
+    const max=innerWidth-W()-8,min=8;
+    destino=Math.max(min,Math.min(max,destino));
+    const d=Math.abs(destino-x);
+    if(d<4)return Promise.resolve();
+    wrap.classList.toggle('mira-izq',destino<x);
+    const ms=reduce?0:Math.min(2600,300+d*3.2);
+    wrap.style.transition=`transform ${ms}ms linear`;
+    wrap.classList.add('walk');
+    x=destino;place();
+    wrap.classList.toggle('lado-der',x+W()/2>innerWidth/2);
+    return wait(ms).then(()=>{wrap.classList.remove('walk')});
+  }
+  const enCola=fn=>{cola=cola.then(fn).catch(()=>{});return cola};
+  const ladoDer=()=>innerWidth-W()-16, ladoIzq=()=>16;
+
+  // Entrada
+  enCola(async()=>{await wait(1600);await caminarA(ladoDer());pose('wave',2200);decir('¡Hola! Soy Dummy 13. Me imprimieron en este taller, capa por capa. ¿Te muestro?');await wait(2600)});
+
+  // Qué dice en cada parte de la web
+  const paradas=[
+    ['#trabajos',['Mirá lo que sale de la impresora. Deslizá los videos →','Estos videos son de verdad, recién salidos del taller.'],'point'],
+    ['#probalo',['¡Tirá el dado! Si sale 6 hay festejo.','Dale, tirá el dado. Yo no puedo, tengo las manos de plástico.'],'jump'],
+    ['#marcas',['Estas marcas ya imprimieron con nosotros.','Mirá cuántos amigos tenemos.'],'flex'],
+    ['#pedir',['Pedir es fácil. Yo salí de una idea, como la tuya.','Tres pasos y lo tenés en la mano.'],'point'],
+    ['.band',['¿Lo viste? ¿Lo querés? Tocá «¡Lo quiero!» y escribinos.','Dale, escribinos. Yo te espero acá.'],'dance']
+  ];
+  const pick=a=>a[Math.floor(Math.random()*a.length)];
+  if('IntersectionObserver' in window){
+    const io=new IntersectionObserver(es=>es.forEach(e=>{
+      if(!e.isIntersecting)return;io.unobserve(e.target);
+      const p=paradas.find(p=>e.target.matches(p[0]));
+      enCola(async()=>{
+        await caminarA(Math.random()<.5?ladoIzq():ladoDer());
+        pose(p[2],2400);decir(pick(p[1]));await wait(3200);
+      });
+    }),{threshold:.45});
+    paradas.forEach(p=>{const el=document.querySelector(p[0]);if(el)io.observe(el)});
+  }
+
+  // Si lo tocás, hace algo
+  const toques=[['flex','¡Mirá estos músculos de PLA!'],['dance','Tengo 13 articulaciones y las uso todas.'],['jump','¡Ey! Que me despegás de la cama.'],['wave','Si querés uno igual, pedilo por WhatsApp.'],['flex','Me imprimieron en 0,2 mm. Soy un fino.'],['dance','¿Bailamos?']];
+  let ultimo=-1;
+  body.addEventListener('click',()=>{
+    if(Math.random()<.3){const n=filamento();pose('jump',1500);decir('¡Cambio de filamento! Ahora soy '+n+'.',3200);return}
+    let i;do{i=Math.floor(Math.random()*toques.length)}while(i===ultimo&&toques.length>1);ultimo=i;
+    pose(toques[i][0],2200);decir(toques[i][1],3500);
+    if(Math.random()<.35)enCola(()=>caminarA(x<innerWidth/2?ladoDer():ladoIzq()));
+  });
+  document.getElementById('dummyX').addEventListener('click',()=>{
+    bubble.classList.remove('on');
+    enCola(async()=>{decir('¡Chau! Me voy al taller.',1500);await wait(900);wrap.style.transition='transform 1200ms ease-in';wrap.classList.add('walk');wrap.classList.remove('mira-izq');x=innerWidth+40;place();await wait(1200);wrap.hidden=true});
+    try{localStorage.setItem('dummyOculto','1')}catch(e){}
+  });
+  addEventListener('resize',()=>{x=Math.min(x,innerWidth-W()-8);wrap.style.transition='none';place()});
+})();
+</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
