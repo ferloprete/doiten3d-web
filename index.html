@@ -160,6 +160,20 @@ a.reel{text-decoration:none}
 .logostrip .wordmark{font-size:26px}
 @keyframes marquee{to{transform:translateX(calc(-50% - 28px))}}
 
+.amigas{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:14px;margin-bottom:16px}
+.amiga{display:grid;gap:2px;text-decoration:none;color:var(--ink);transition:transform .25s cubic-bezier(.3,1.8,.5,1)}
+.amiga:hover{transform:rotate(-2deg) translateY(-4px)}
+.amiga:focus-visible{outline:3px solid var(--naranja);outline-offset:4px;border-radius:18px}
+.amiga .tile{aspect-ratio:3/2;max-width:100%;background:#fff;border:1px solid var(--line);border-radius:18px;display:grid;place-items:center;padding:14px;margin-bottom:8px;overflow:hidden}
+.amiga .tile.dark{background:#1d2630}
+.amiga .tile img{max-width:88%;max-height:64px;width:auto;height:auto}
+.amiga .tile img.round{max-height:84px;border-radius:50%}
+.amiga .tile img.tall{max-height:90px}
+.amiga .tile .wordmark{font-size:24px;text-align:center;white-space:normal;line-height:1.1}
+.amiga .nm{font-weight:700;font-size:16px;line-height:1.2}
+.amiga .ds{font-size:14px;color:var(--muted);line-height:1.3}
+#marcas .marca.sumate{display:grid}
+
 /* pasos */
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;list-style:none;padding:0;margin:0;counter-reset:s}
 .steps li{counter-increment:s;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:22px;transition:transform .25s cubic-bezier(.3,1.8,.5,1)}
@@ -284,62 +298,63 @@ footer a{color:inherit}
     <section id="marcas">
       <div class="head">
         <h2>Marcas amigas</h2>
-        <p>Emprendimientos que eligieron imprimir con nosotros.</p>
+        <p>Empresas y emprendimientos que eligieron imprimir con nosotros. Tocá una para conocerla.</p>
       </div>
-      <div class="logostrip" aria-label="Marcas que trabajan con nosotros">
-        <div class="track">
-          <img src="marcas/mushu.png" alt="Mushu" height="44"><img src="marcas/maxstore.jpg" alt="Maxstore Outdoor" height="44" class="round"><img src="marcas/italpiedras.png" alt="Italpiedras" height="44"><span class="wordmark">KIT 4x4</span>
-          <img src="marcas/mushu.png" alt="" height="44" aria-hidden="true"><img src="marcas/maxstore.jpg" alt="" height="44" class="round" aria-hidden="true"><img src="marcas/italpiedras.png" alt="" height="44" aria-hidden="true"><span class="wordmark" aria-hidden="true">KIT 4x4</span>
-        </div>
+      <div class="amigas">
+          <a class="amiga" href="https://www.instagram.com/mushubebes/" target="_blank" rel="noopener">
+            <span class="tile"><img src="marcas/mushu.png" alt="Mushu" loading="lazy"></span>
+            <span class="nm">Mushu</span><span class="ds">Ropa para bebés y niños</span>
+          </a>
+          <a class="amiga" href="https://www.instagram.com/maxstoreoutdoor/" target="_blank" rel="noopener">
+            <span class="tile"><img src="marcas/maxstore.jpg" alt="Maxstore Outdoor" loading="lazy" class="round"></span>
+            <span class="nm">Maxstore Outdoor</span><span class="ds">Camping y outdoor</span>
+          </a>
+          <a class="amiga" href="https://italpiedras.com.ar/" target="_blank" rel="noopener">
+            <span class="tile"><img src="marcas/italpiedras.png" alt="Italpiedras" loading="lazy"></span>
+            <span class="nm">Italpiedras</span><span class="ds">Piedra natural y diseño</span>
+          </a>
+          <a class="amiga" href="https://www.instagram.com/kit4x4/" target="_blank" rel="noopener">
+            <span class="tile"><img src="marcas/kit4x4.jpg" alt="Kit 4x4" loading="lazy" class="round"></span>
+            <span class="nm">Kit 4x4</span><span class="ds">Equipamiento y suspensión 4x4</span>
+          </a>
+          <a class="amiga" href="https://www.lucmilo.com.ar/" target="_blank" rel="noopener">
+            <span class="tile"><img src="marcas/lucmilo.jpg" alt="Lucmilo" loading="lazy"></span>
+            <span class="nm">Lucmilo</span><span class="ds">Tienda online</span>
+          </a>
+          <a class="amiga" href="https://automovilesgam.com.ar/" target="_blank" rel="noopener">
+            <span class="tile"><span class="wordmark">GAM</span></span>
+            <span class="nm">Automóviles GAM</span><span class="ds">Autos usados en Hurlingham</span>
+          </a>
+          <a class="amiga" href="https://quimicaepsilon.com.ar/" target="_blank" rel="noopener">
+            <span class="tile"><img src="marcas/epsilon.jpg" alt="Química Epsilon" loading="lazy" class="tall"></span>
+            <span class="nm">Química Epsilon</span><span class="ds">Química para la industria del caucho</span>
+          </a>
+          <a class="amiga" href="https://www.etminternacionalsrl.com/" target="_blank" rel="noopener">
+            <span class="tile"><img src="marcas/etm.jpg" alt="ETM Internacional" loading="lazy"></span>
+            <span class="nm">ETM Internacional</span><span class="ds">Transporte y logística internacional</span>
+          </a>
+          <a class="amiga" href="https://www.translibertador.com/" target="_blank" rel="noopener">
+            <span class="tile dark"><img src="marcas/libertador.png" alt="Transporte Libertador" loading="lazy"></span>
+            <span class="nm">Transporte Libertador</span><span class="ds">Transporte</span>
+          </a>
+          <a class="amiga" href="https://www.instagram.com/italiamotorsoficial/" target="_blank" rel="noopener">
+            <span class="tile"><span class="wordmark">Italia Motors</span></span>
+            <span class="nm">Italia Motors</span><span class="ds">@italiamotorsoficial</span>
+          </a>
+          <a class="amiga" href="https://www.instagram.com/luisicars/" target="_blank" rel="noopener">
+            <span class="tile"><span class="wordmark">Luisi Cars</span></span>
+            <span class="nm">Luisi Cars</span><span class="ds">@luisicars</span>
+          </a>
+          <a class="amiga" href="https://www.instagram.com/poli.ind/" target="_blank" rel="noopener">
+            <span class="tile"><span class="wordmark">Poli Ind</span></span>
+            <span class="nm">Poli Ind</span><span class="ds">@poli.ind</span>
+          </a>
       </div>
-      <div class="marcas">
-        <article class="marca">
-          <div class="logo-tile"><img src="marcas/mushu.png" alt="Mushu Mayorista" width="600" height="270" loading="lazy"></div>
-          <div class="body">
-            <h3>Mushu</h3>
-            <p>Ropa y accesorios para bebés y niños, por mayor.</p>
-            <div class="links">
-              <a href="https://www.instagram.com/mushubebes/" target="_blank" rel="noopener">Instagram</a>
-              <a href="https://mushumayorista.mitiendanube.com/" target="_blank" rel="noopener">Tienda</a>
-            </div>
-          </div>
-        </article>
-        <article class="marca">
-          <div class="logo-tile"><img src="marcas/maxstore.jpg" alt="Maxstore Outdoor" width="100" height="100" loading="lazy" class="round"></div>
-          <div class="body">
-            <h3>Maxstore Outdoor</h3>
-            <p>Equipamiento para camping, aventura y outdoor.</p>
-            <div class="links">
-              <a href="https://www.instagram.com/maxstoreoutdoor/" target="_blank" rel="noopener">Instagram</a>
-            </div>
-          </div>
-        </article>
-        <article class="marca">
-          <div class="logo-tile"><img src="marcas/italpiedras.png" alt="Italpiedras" width="446" height="120" loading="lazy"></div>
-          <div class="body">
-            <h3>Italpiedras</h3>
-            <p>Piedra natural para proyectos de diseño y arquitectura. Más de 25 años de oficio.</p>
-            <div class="links">
-              <a href="https://italpiedras.com.ar/" target="_blank" rel="noopener">Sitio web</a>
-            </div>
-          </div>
-        </article>
-        <article class="marca">
-          <div class="logo-tile"><span class="wordmark">KIT 4x4</span></div>
-          <div class="body">
-            <h3>Kit 4x4</h3>
-            <p>Equipamiento y accesorios para 4x4.</p>
-            <div class="links">
-              <a href="https://www.instagram.com/kit4x4/" target="_blank" rel="noopener">Instagram</a>
-            </div>
-          </div>
-        </article>
-        <a class="marca sumate" href="https://wa.me/541131825636?text=Hola%20DO-IT-3D!%20Tengo%20una%20marca%20y%20quiero%20imprimir%20algo" target="_blank" rel="noopener">
-          <h3>¿Tenés una marca?</h3>
-          <p>Llaveros con tu logo, exhibidores, regalos para tus clientes. Lo diseñamos y lo imprimimos.</p>
-          <span class="go">Hablemos →</span>
-        </a>
-      </div>
+      <a class="marca sumate" href="https://wa.me/541131825636?text=Hola%20DO-IT-3D!%20Tengo%20una%20marca%20y%20quiero%20imprimir%20algo" target="_blank" rel="noopener">
+        <h3>¿Tenés una marca?</h3>
+        <p>Llaveros con tu logo, exhibidores, regalos para tus clientes. Lo diseñamos y lo imprimimos.</p>
+        <span class="go">Hablemos →</span>
+      </a>
     </section>
 
     <section id="pedir">
