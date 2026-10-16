@@ -176,6 +176,14 @@ a.reel{text-decoration:none}
 .amiga .ds{font-size:14px;color:var(--muted);line-height:1.3}
 #marcas .marca.sumate{display:grid}
 
+.otra{position:absolute;left:14px;bottom:12px;font-family:var(--f-display);font-size:16px;color:#fff;background:var(--turq);border:0;border-radius:99px;padding:5px 14px 7px;cursor:pointer;box-shadow:0 3px 0 #0e8aa1;transition:transform .12s}
+.otra:hover{transform:rotate(-3deg)}
+.otra:active{transform:translateY(3px);box-shadow:0 0 0 #0e8aa1}
+.otra:focus-visible{outline:3px solid var(--naranja);outline-offset:3px}
+.dicebox{position:relative;overflow:hidden}
+.diewrap{transform-style:preserve-3d}
+.chip{position:absolute;left:50%;top:42%;width:12px;height:11px;clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);pointer-events:none}
+
 /* pasos */
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;list-style:none;padding:0;margin:0;counter-reset:s}
 .steps li{counter-increment:s;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:22px;transition:transform .25s cubic-bezier(.3,1.8,.5,1)}
@@ -230,8 +238,9 @@ footer a{color:inherit}
         <p class="num">WhatsApp: +54 11 3182-5636</p>
       </div>
       <div>
-        <div class="stage" id="stage" aria-label="La tuerca del logo en 3D: arrastrá para torcerla">
-          <div class="readout" id="readout">capa 0/80 · 0,2 mm · PLA</div>
+        <div class="stage" id="stage" aria-label="Pieza 3D impresa por capas: arrastrá para torcerla">
+          <div class="readout" id="readout">imprimiendo…</div>
+          <button class="otra" id="otra" type="button">Otra pieza ↻</button>
           <div class="hint">Arrastrá para torcerla ↔</div>
         </div>
         <div class="swatches" role="group" aria-label="Color de filamento">
@@ -280,9 +289,10 @@ footer a{color:inherit}
         <div>
           <p class="eyebrow">Probalo acá</p>
           <h2>Tirá el dado</h2>
-          <p>Así se siente uno de nuestros dados didácticos: liviano, con las capas que se ven y se tocan. Hacé clic y tiralo. En la mano es todavía mejor.</p>
+          <p>Así se siente uno de nuestros dados didácticos: liviano, con las capas que se ven y se tocan. Cada tiro sale distinto, y si sale un 6 hay festejo. En la mano es todavía mejor.</p>
         </div>
         <div class="dicebox">
+          <div class="diewrap" id="diewrap">
           <button class="die" id="die" aria-label="Tirar el dado">
             <div class="face f1"><i style="grid-area:2/2"></i></div>
             <div class="face f2" style="--fc:var(--naranja)"><i style="grid-area:1/1"></i><i style="grid-area:3/3"></i></div>
@@ -291,6 +301,7 @@ footer a{color:inherit}
             <div class="face f5" style="--fc:#f6c343"><i style="grid-area:1/1"></i><i style="grid-area:1/3"></i><i style="grid-area:2/2"></i><i style="grid-area:3/1"></i><i style="grid-area:3/3"></i></div>
             <div class="face f6" style="--fc:#0a3a66"><i style="grid-area:1/1"></i><i style="grid-area:2/1"></i><i style="grid-area:3/1"></i><i style="grid-area:1/3"></i><i style="grid-area:2/3"></i><i style="grid-area:3/3"></i></div>
           </button>
+          </div>
           <button class="roll" id="roll">¡Tirar!</button>
           <div class="result" id="result" aria-live="polite">Salió 1</div>
         </div>
@@ -431,64 +442,119 @@ footer a{color:inherit}
     vids.forEach(v=>io.observe(v));
   }
 
-  /* ---------- Dado ---------- */
-  const die=document.getElementById('die'),res=document.getElementById('result');
+  /* ---------- Mezclar: cada visita ve otro orden de videos y marcas ---------- */
+  function shuffleChildren(parent,selector){
+    if(!parent)return;
+    const items=[...parent.querySelectorAll(':scope > '+selector)];
+    if(items.length<2)return;
+    const anchor=items[0].previousElementSibling;
+    for(let i=items.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[items[i],items[j]]=[items[j],items[i]]}
+    const frag=document.createDocumentFragment();items.forEach(n=>frag.appendChild(n));
+    anchor?anchor.after(frag):parent.prepend(frag);
+  }
+  shuffleChildren(document.getElementById('reels'),'article.reel.vid');
+  shuffleChildren(document.querySelector('.amigas'),'.amiga');
+
+  /* ---------- Dado: cada tiro con un efecto distinto ---------- */
+  const die=document.getElementById('die'),wrap=document.getElementById('diewrap'),res=document.getElementById('result'),box=die.closest('.dicebox');
   const rot={1:[0,0],2:[0,-90],3:[-90,0],4:[90,0],5:[0,90],6:[0,180]};
-  let spins=0;
+  const tiros=[
+    {nombre:'salto',ms:1200,k:[{transform:'translateY(0)'},{transform:'translateY(-130px)',offset:.35},{transform:'translateY(0)',offset:.6},{transform:'translateY(-34px)',offset:.75},{transform:'translateY(0)',offset:.88},{transform:'translateY(-8px)',offset:.94},{transform:'translateY(0)'}]},
+    {nombre:'rodada',ms:1300,k:[{transform:'translateX(-150px) rotateZ(-200deg)'},{transform:'translateX(30px) rotateZ(20deg)',offset:.7},{transform:'translateX(-8px) rotateZ(-4deg)',offset:.85},{transform:'translateX(0) rotateZ(0)'}]},
+    {nombre:'trompo',ms:1400,k:[{transform:'rotateZ(0) scale(1)'},{transform:'rotateZ(540deg) scale(.8)',offset:.6},{transform:'rotateZ(700deg) scale(1.08)',offset:.85},{transform:'rotateZ(720deg) scale(1)'}]},
+    {nombre:'temblor',ms:1200,k:[{transform:'translate(0,0)'},{transform:'translate(-10px,4px) rotateZ(-6deg)',offset:.1},{transform:'translate(10px,-4px) rotateZ(6deg)',offset:.2},{transform:'translate(-8px,2px) rotateZ(-4deg)',offset:.3},{transform:'translate(0,-90px)',offset:.55},{transform:'translate(0,0) scale(1.12,.86)',offset:.8},{transform:'translate(0,0) scale(1)'}]},
+    {nombre:'desde arriba',ms:1150,k:[{transform:'translateY(-220px) scale(.6)',opacity:0},{transform:'translateY(0) scale(1.15,.82)',opacity:1,offset:.55},{transform:'translateY(-26px) scale(.96,1.04)',offset:.75},{transform:'translateY(0) scale(1)'}]},
+    {nombre:'boomerang',ms:1500,k:[{transform:'translate(0,0)'},{transform:'translate(140px,-70px) rotateZ(120deg)',offset:.35},{transform:'translate(-120px,-40px) rotateZ(260deg)',offset:.7},{transform:'translate(0,0) rotateZ(360deg)'}]}
+  ];
+  const frases={1:['Salió 1','Un 1. Cualquiera puede tener un mal día','1. Tirá de nuevo, nadie vio nada'],2:['Salió 2','Un 2, tranqui'],3:['Salió 3','Un 3, ni fu ni fa'],4:['Salió 4','Un 4, vamos bien'],5:['Salió 5','¡Un 5! Casi'],6:['¡Salió 6!','¡SEIS! Ese dado está impreso con suerte']};
+  const pick=a=>a[Math.floor(Math.random()*a.length)];
+  let rx=0,ry=0,rolling=false;
+  function confeti(){
+    if(reduce)return;
+    const cols=['#e68b3a','#1ebbd7','#f2b8d2','#6bbf59','#f6c343'];
+    for(let i=0;i<16;i++){
+      const s=document.createElement('span');s.className='chip';s.style.background=pick(cols);box.appendChild(s);
+      const a=Math.random()*Math.PI*2,d=80+Math.random()*90;
+      s.animate([{transform:'translate(-50%,-50%) scale(1)',opacity:1},{transform:`translate(calc(-50% + ${Math.cos(a)*d}px),calc(-50% + ${Math.sin(a)*d}px)) rotate(${Math.random()*360}deg) scale(.4)`,opacity:0}],{duration:900+Math.random()*400,easing:'cubic-bezier(.2,.8,.3,1)'}).onfinish=()=>s.remove();
+    }
+  }
   function roll(){
-    const n=1+Math.floor(Math.random()*6);spins++;
-    const [x,y]=rot[n];
-    die.style.transform=`rotateX(${x+spins*720}deg) rotateY(${y+spins*360}deg)`;
-    res.textContent='…';
-    setTimeout(()=>{res.textContent='Salió '+n},reduce?0:1100);
+    if(rolling)return;rolling=true;
+    const n=1+Math.floor(Math.random()*6),t=pick(tiros),[x,y]=rot[n];
+    // vueltas extra al azar, siempre terminando en la cara que salió
+    rx=Math.ceil(rx/360)*360+360*(1+Math.floor(Math.random()*3));
+    ry=Math.ceil(ry/360)*360+360*(1+Math.floor(Math.random()*2))*(Math.random()<.5?-1:1);
+    die.style.transition=`transform ${reduce?0:t.ms}ms cubic-bezier(.2,${(1+Math.random()*.6).toFixed(2)},.4,1)`;
+    die.style.transform=`rotateX(${rx+x}deg) rotateY(${ry+y}deg)`;
+    if(!reduce)wrap.animate(t.k,{duration:t.ms,easing:'ease-out'});
+    res.textContent='Tiro '+t.nombre+'…';
+    setTimeout(()=>{res.textContent=pick(frases[n]);if(n===6)confeti();rolling=false},reduce?0:t.ms);
   }
   die.addEventListener('click',roll);
   document.getElementById('roll').addEventListener('click',roll);
   die.style.transform='rotateX(-20deg) rotateY(25deg)';
 
-  /* ---------- Pieza 3D: la tuerca del logo, impresa por capas y torcible ---------- */
-  const stage=document.getElementById('stage'),readout=document.getElementById('readout');
-  if(!window.THREE){readout.textContent='Pieza 3D no disponible en este navegador';return}
+  /* ---------- Pieza 3D: cada visita imprime una pieza distinta, y se puede torcer ---------- */
+  const stage=document.getElementById('stage'),readout=document.getElementById('readout'),otra=document.getElementById('otra');
+  if(!window.THREE){readout.textContent='Pieza 3D no disponible en este navegador';otra.hidden=true;return}
 
-  const N=80, H=1.7, LH=H/N;
+  const poly=(n,r,rot=0)=>{const p=[];for(let i=0;i<n;i++){const a=rot+i/n*Math.PI*2;p.push(new THREE.Vector2(Math.cos(a)*r,Math.sin(a)*r))}return p};
+  const circle=r=>poly(48,r);
+  function shapeFrom(outer,holes){
+    const s=new THREE.Shape(outer);
+    holes.forEach(h=>s.holes.push(new THREE.Path(h.slice().reverse())));
+    return s;
+  }
+  const heart=k=>{const p=[];for(let i=0;i<64;i++){const t=i/64*Math.PI*2;
+    p.push(new THREE.Vector2(16*Math.pow(Math.sin(t),3)*k/14,(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t)+2.5)*k/14))}return p};
+  const star=(pts,r1,r2)=>{const p=[];for(let i=0;i<pts*2;i++){const a=i/(pts*2)*Math.PI*2,r=i%2?r2:r1;p.push(new THREE.Vector2(Math.cos(a)*r,Math.sin(a)*r))}return p};
+  const gear=(teeth,r1,r2)=>{const p=[],n=teeth*4;for(let i=0;i<n;i++){const a=i/n*Math.PI*2,r=(i%4<2)?r1:r2;p.push(new THREE.Vector2(Math.cos(a)*r,Math.sin(a)*r))}return p};
+  const PIEZAS=[
+    {nombre:'Tuerca DO-IT-3D',shape:()=>shapeFrom(poly(6,1.45),[circle(.66)]),N:80,H:1.7,twist:.35,prof:()=>1},
+    {nombre:'Florero estrella',shape:()=>shapeFrom(star(6,1,.78),[circle(.62)]),N:96,H:3.2,twist:1.4,prof:t=>.62+.32*Math.sin(Math.PI*(t*.95+.08))+.1*Math.sin(t*9)*t},
+    {nombre:'Maceta espiral',shape:()=>shapeFrom(poly(4,1.35,Math.PI/4),[circle(.78)]),N:90,H:2.3,twist:.6,prof:t=>.9+.22*t},
+    {nombre:'Corazón',shape:()=>shapeFrom(heart(1.0),[heart(.66)]),N:50,H:1.1,twist:0,prof:()=>1},
+    {nombre:'Engranaje',shape:()=>shapeFrom(gear(12,1.42,1.2),[circle(.42)]),N:44,H:.9,twist:.2,prof:()=>1},
+    {nombre:'Portalápices',shape:()=>shapeFrom(poly(8,1.25,Math.PI/8),[poly(8,1.1,Math.PI/8)]),N:100,H:2.8,twist:.9,prof:t=>1-.12*Math.sin(Math.PI*t)}
+  ];
+
   const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
   renderer.setPixelRatio(Math.min(devicePixelRatio,2));
   stage.prepend(renderer.domElement);
   const scene=new THREE.Scene();
   const cam=new THREE.PerspectiveCamera(35,1,.1,50);
-  cam.position.set(0,3.6,6.6);cam.lookAt(0,.75,0);
   scene.add(new THREE.HemisphereLight(0xffffff,0x40607a,.9));
   const dl=new THREE.DirectionalLight(0xffffff,.9);dl.position.set(3,5,4);scene.add(dl);
-
-  // Capa: hexágono con agujero redondo, igual que el logo
-  const outer=new THREE.Shape();
-  for(let i=0;i<=6;i++){const a=i/6*Math.PI*2,x=Math.cos(a)*1.45,y=Math.sin(a)*1.45;i?outer.lineTo(x,y):outer.moveTo(x,y)}
-  const hole=new THREE.Path();
-  for(let i=0;i<=48;i++){const a=-i/48*Math.PI*2;i?hole.lineTo(Math.cos(a)*.66,Math.sin(a)*.66):hole.moveTo(.66,0)}
-  outer.holes.push(hole);
-  const geo=new THREE.ExtrudeGeometry(outer,{depth:1,bevelEnabled:false,curveSegments:2});
-  geo.rotateX(-Math.PI/2);
-  const mat=new THREE.MeshStandardMaterial({roughness:.55,metalness:0});
-  const mesh=new THREE.InstancedMesh(geo,mat,N);
-  scene.add(mesh);
-  // Cama de impresión
   const bed=new THREE.Mesh(new THREE.BoxGeometry(4.2,.06,4.2),new THREE.MeshStandardMaterial({color:0x0a2a48,roughness:.8}));
   bed.position.y=-.03;scene.add(bed);
+  const mat=new THREE.MeshStandardMaterial({roughness:.55,metalness:0});
 
   let base=new THREE.Color('#e68b3a');
   const m=new THREE.Matrix4(),q=new THREE.Quaternion(),p=new THREE.Vector3(),sc=new THREE.Vector3(),up=new THREE.Vector3(0,1,0),col=new THREE.Color();
-  let twist=.35, twistTarget=.35, spin=0;
+  let pieza,mesh=null,N,LH,twist,twistTarget,spin=0,printed=0,t0=0,idx=-1;
+
   function build(){
     for(let i=0;i<N;i++){
-      const t=i/(N-1);
+      const t=i/(N-1),r=pieza.prof(t);
       q.setFromAxisAngle(up,twist*t*Math.PI);
-      p.set(0,i*LH,0);sc.set(1,LH*.96,1);
+      p.set(0,i*LH,0);sc.set(r,LH*.96,r);
       m.compose(p,q,sc);mesh.setMatrixAt(i,m);
       col.copy(base).multiplyScalar(i%2?.9:1);mesh.setColorAt(i,col);
     }
     mesh.instanceMatrix.needsUpdate=true;mesh.instanceColor.needsUpdate=true;
   }
-  build();
+  function cargar(i){
+    idx=i;pieza=PIEZAS[i];N=pieza.N;LH=pieza.H/N;twist=twistTarget=pieza.twist;
+    if(mesh){scene.remove(mesh);mesh.geometry.dispose()}
+    const geo=new THREE.ExtrudeGeometry(pieza.shape(),{depth:1,bevelEnabled:false,curveSegments:2});
+    geo.rotateX(-Math.PI/2);
+    mesh=new THREE.InstancedMesh(geo,mat,N);scene.add(mesh);
+    cam.position.set(0,2.2+pieza.H*.6,6.2+pieza.H*.4);cam.lookAt(0,pieza.H*.45,0);
+    build();printed=reduce?N:0;t0=performance.now();
+  }
+  function otraPieza(){let i;do{i=Math.floor(Math.random()*PIEZAS.length)}while(i===idx&&PIEZAS.length>1);cargar(i)}
+  otraPieza();
+  otra.addEventListener('click',otraPieza);
 
   // Colores de filamento
   document.querySelectorAll('.sw').forEach(b=>b.addEventListener('click',()=>{
@@ -498,7 +564,7 @@ footer a{color:inherit}
 
   // Arrastrar = torcer (horizontal); el scroll vertical sigue andando en el celu
   let drag=null;
-  stage.addEventListener('pointerdown',e=>{drag={x:e.clientX,t:twistTarget};stage.setPointerCapture(e.pointerId)});
+  stage.addEventListener('pointerdown',e=>{if(e.target.closest('button'))return;drag={x:e.clientX,t:twistTarget};stage.setPointerCapture(e.pointerId)});
   stage.addEventListener('pointermove',e=>{if(!drag)return;twistTarget=Math.max(-3,Math.min(3,drag.t+(e.clientX-drag.x)/90))});
   const end=()=>{drag=null};
   stage.addEventListener('pointerup',end);stage.addEventListener('pointercancel',end);
@@ -507,11 +573,10 @@ footer a{color:inherit}
   new ResizeObserver(size).observe(stage);size();
 
   // Animación de impresión
-  let printed=reduce?N:0;const t0=performance.now();
   function frame(now){
     if(printed<N){printed=Math.min(N,Math.floor((now-t0)/2600*N));}
     mesh.count=Math.max(1,printed);
-    readout.textContent=(printed<N?'imprimiendo · ':'listo · ')+'capa '+printed+'/'+N+' · 0,2 mm · PLA';
+    readout.textContent=pieza.nombre+' · '+(printed<N?'imprimiendo ':'lista · ')+'capa '+printed+'/'+N;
     if(Math.abs(twistTarget-twist)>.001){twist+=(twistTarget-twist)*.15;build()}
     if(!reduce&&!drag)spin+=.004;
     mesh.rotation.y=spin;
