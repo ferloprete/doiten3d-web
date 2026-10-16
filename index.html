@@ -126,6 +126,26 @@ a.reel{text-decoration:none}
 .roll:focus-visible{outline:3px solid var(--naranja);outline-offset:3px}
 .result{font-family:var(--f-mono);font-size:13px;color:var(--muted);min-height:1.5em}
 
+/* marcas amigas */
+.marcas{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.marca{display:grid;grid-template-rows:auto 1fr;background:var(--surface);border:1px solid var(--line);border-radius:22px;overflow:hidden;
+  color:var(--ink);transition:transform .25s cubic-bezier(.3,1.8,.5,1)}
+.marca:hover{transform:rotate(-1.2deg) translateY(-4px)}
+.marca .logo-tile{aspect-ratio:16/9;max-width:100%;background:#fff;display:grid;place-items:center;padding:24px;border-bottom:1px solid var(--line)}
+.marca .logo-tile img{max-height:90px;width:auto;max-width:80%}
+.marca .body{padding:18px 20px 20px;display:grid;gap:6px;align-content:start}
+.marca h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:24px;line-height:1.1}
+.marca p{margin:0;color:var(--muted);font-size:16px}
+.marca .links{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.marca .links a{font-size:15px;font-weight:500;color:var(--ink);text-decoration:none;border:1px solid var(--line);border-radius:99px;padding:4px 14px}
+.marca .links a:hover{border-color:var(--naranja)}
+.marca .links a:focus-visible{outline:3px solid var(--naranja);outline-offset:2px}
+.marca.sumate{background:var(--turq);border-color:transparent;color:#fff;text-decoration:none;align-content:center;padding:28px 24px;grid-template-rows:none;gap:10px}
+.marca.sumate h3{font-size:28px}
+.marca.sumate p{color:#001f3f}
+.marca.sumate .go{font-family:var(--f-display);font-size:20px;color:#001f3f}
+.marca.sumate:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+
 /* pasos */
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;list-style:none;padding:0;margin:0;counter-reset:s}
 .steps li{counter-increment:s;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:22px;transition:transform .25s cubic-bezier(.3,1.8,.5,1)}
@@ -244,6 +264,31 @@ footer a{color:inherit}
           <button class="roll" id="roll">¡Tirar!</button>
           <div class="result" id="result" aria-live="polite">Salió 1</div>
         </div>
+      </div>
+    </section>
+
+    <section id="marcas">
+      <div class="head">
+        <h2>Marcas amigas</h2>
+        <p>Emprendimientos que eligieron imprimir con nosotros.</p>
+      </div>
+      <div class="marcas">
+        <article class="marca">
+          <div class="logo-tile"><img src="marcas/mushu.png" alt="Mushu Mayorista" width="600" height="270" loading="lazy"></div>
+          <div class="body">
+            <h3>Mushu</h3>
+            <p>Ropa y accesorios para bebés y niños, por mayor.</p>
+            <div class="links">
+              <a href="https://www.instagram.com/mushubebes/" target="_blank" rel="noopener">Instagram</a>
+              <a href="https://mushumayorista.mitiendanube.com/" target="_blank" rel="noopener">Tienda</a>
+            </div>
+          </div>
+        </article>
+        <a class="marca sumate" href="https://wa.me/541131825636?text=Hola%20DO-IT-3D!%20Tengo%20una%20marca%20y%20quiero%20imprimir%20algo" target="_blank" rel="noopener">
+          <h3>¿Tenés una marca?</h3>
+          <p>Llaveros con tu logo, exhibidores, regalos para tus clientes. Lo diseñamos y lo imprimimos.</p>
+          <span class="go">Hablemos →</span>
+        </a>
       </div>
     </section>
 
