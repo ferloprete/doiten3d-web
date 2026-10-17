@@ -189,6 +189,20 @@ a.reel{text-decoration:none}
 .diewrap{transform-style:preserve-3d}
 .chip{position:absolute;left:50%;top:42%;width:12px;height:11px;clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);pointer-events:none}
 
+/* galería */
+.galeria{columns:4 210px;column-gap:14px}
+.foto{break-inside:avoid;margin:0 0 14px;border-radius:18px;overflow:hidden;position:relative;cursor:zoom-in;background:var(--surface);border:1px solid var(--line);transition:transform .25s cubic-bezier(.3,1.8,.5,1)}
+.foto:hover{transform:rotate(-1deg) translateY(-3px)}
+.foto:focus-visible{outline:3px solid var(--naranja);outline-offset:3px}
+.foto img{display:block;width:100%;height:auto}
+.foto figcaption{position:absolute;inset:auto 0 0 0;padding:30px 12px 10px;color:#fff;font-size:14px;line-height:1.3;background:linear-gradient(transparent,rgba(0,20,40,.72))}
+.visor{border:0;padding:0;background:transparent;max-width:min(92vw,900px);overflow:visible}
+.visor::backdrop{background:rgba(0,15,30,.86)}
+.visor img{display:block;max-width:100%;max-height:80vh;margin:0 auto;border-radius:16px}
+.visor p{margin:12px 0 0;color:#fff;text-align:center;font-size:17px}
+.visor-x{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));width:44px;height:44px;border:0;border-radius:50%;background:#fff;color:#001f3f;font-size:26px;line-height:1;cursor:pointer}
+.visor-x:focus-visible{outline:3px solid var(--naranja);outline-offset:2px}
+
 /* pasos */
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;list-style:none;padding:0;margin:0;counter-reset:s}
 .steps li{counter-increment:s;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:22px;transition:transform .25s cubic-bezier(.3,1.8,.5,1)}
@@ -328,6 +342,10 @@ footer a{color:inherit}
       </div>
       <div class="reels" id="reels">
         <article class="reel vid" tabindex="0">
+          <video src="videos/letras.mp4" poster="videos/letras.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
+          <div class="meta"><h3>Letras para toppers</h3><p>Nombres y números para tu torta, letra por letra.</p></div>
+        </article>
+        <article class="reel vid" tabindex="0">
           <video src="videos/fidgets.mp4" poster="videos/fidgets.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
           <div class="meta"><h3>Fidgets y juguetes</h3><p>Cubos, espirales y encastres para no soltar.</p></div>
         </article>
@@ -349,6 +367,30 @@ footer a{color:inherit}
           <div class="meta"><h3>Seguinos en Instagram</h3><p>@doiten3d</p></div>
         </a>
       </div>
+    </section>
+
+    <section id="galeria">
+      <div class="head">
+        <h2>Hecho en el taller</h2>
+        <p>Fotos de trabajos reales. Tocá una para verla grande.</p>
+      </div>
+      <div class="galeria" id="galeria-grid">
+          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Dummy 13 recién impreso, con manos para intercambiar"><img src="fotos/dummy13.jpg" alt="Dummy 13 recién impreso, con manos para intercambiar" width="474" height="900" loading="lazy"><figcaption>Dummy 13 recién impreso, con manos para intercambiar</figcaption></figure>
+          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Llavero con nombre"><img src="fotos/llavero-nombre.jpg" alt="Llavero con nombre" width="405" height="900" loading="lazy"><figcaption>Llavero con nombre</figcaption></figure>
+          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Tiburón articulado y avioncito"><img src="fotos/tiburon-avion.jpg" alt="Tiburón articulado y avioncito" width="405" height="900" loading="lazy"><figcaption>Tiburón articulado y avioncito</figcaption></figure>
+          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Servilletero con montañas para Sukha, almacén serrano"><img src="fotos/servilletero-montanas.jpg" alt="Servilletero con montañas para Sukha, almacén serrano" width="405" height="900" loading="lazy"><figcaption>Servilletero con montañas para Sukha, almacén serrano</figcaption></figure>
+          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Cascos en miniatura, recién salidos de la cama"><img src="fotos/cascos.jpg" alt="Cascos en miniatura, recién salidos de la cama" width="729" height="900" loading="lazy"><figcaption>Cascos en miniatura, recién salidos de la cama</figcaption></figure>
+          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Bolas navideñas con nombre"><img src="fotos/bolas-navidad.jpg" alt="Bolas navideñas con nombre" width="405" height="900" loading="lazy"><figcaption>Bolas navideñas con nombre</figcaption></figure>
+          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Adornos navideños personalizados"><img src="fotos/adornos-navidad.jpg" alt="Adornos navideños personalizados" width="767" height="900" loading="lazy"><figcaption>Adornos navideños personalizados</figcaption></figure>
+          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Molde impreso y la maceta de cemento que sale de él"><img src="fotos/maceta-molde.jpg" alt="Molde impreso y la maceta de cemento que sale de él" width="808" height="900" loading="lazy"><figcaption>Molde impreso y la maceta de cemento que sale de él</figcaption></figure>
+          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Molde para macetas, en partes"><img src="fotos/molde-maceta.jpg" alt="Molde para macetas, en partes" width="405" height="900" loading="lazy"><figcaption>Molde para macetas, en partes</figcaption></figure>
+          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Topper de torta con nombre y máquina de coser"><img src="fotos/topper-costurera.jpg" alt="Topper de torta con nombre y máquina de coser" width="587" height="900" loading="lazy"><figcaption>Topper de torta con nombre y máquina de coser</figcaption></figure>
+      </div>
+      <dialog class="visor" id="visor" aria-label="Foto ampliada">
+        <img id="visorImg" alt="">
+        <p id="visorTxt"></p>
+        <button class="visor-x" id="visorX" type="button" aria-label="Cerrar">×</button>
+      </dialog>
     </section>
 
     <section id="probalo">
@@ -547,6 +589,7 @@ footer a{color:inherit}
   const LUGARES=[
     {sel:'.stage',tipo:'stage',sentado:true,frases:['Desde acá arriba veo cómo se imprime todo.','Arrastrá la pieza, que se tuerce. Yo miro.','Esta impresora me conoce de chiquito.']},
     {sel:'#reels .reel',tipo:'reel',visibleX:true,frases:['Deslizá los videos →','Este video lo filmamos en el taller.','Mirá lo que sale de la impresora.']},
+    {sel:'.foto',tipo:'foto',sentado:true,frases:['Esto salió de nuestra impresora.','Tocá una foto para verla grande.','Mirá qué lindo quedó este.']},
     {sel:'.dicebox',tipo:'dado',sentado:true,frases:['Tirá el dado. Yo no puedo, tengo las manos de plástico.','Si sale 6 hay festejo.']},
     {sel:'.amiga .tile',tipo:'marca',sentado:true,frases:['¡{m} ya imprimió con nosotros!','Esta es {m}, marca amiga.','{m}: gente que confía en DO-IT-3D.']},
     {sel:'.steps li',tipo:'paso',sentado:true,frases:['Pedir es fácil, son tres pasos.','Yo también empecé como una idea.']},
@@ -660,6 +703,26 @@ footer a{color:inherit}
     setTimeout(()=>{wrap.classList.remove('p-sit');caminar(scrollX+document.documentElement.clientWidth+40).then(()=>{wrap.hidden=true})},900);
     try{localStorage.setItem('dummyOculto','1')}catch(e){}
   });
+})();
+</script>
+
+<script>
+(function(){
+  /* ---------- Galería: orden mezclado y visor para ver las fotos grandes ---------- */
+  const grid=document.getElementById('galeria-grid'),visor=document.getElementById('visor'),vImg=document.getElementById('visorImg'),vTxt=document.getElementById('visorTxt');
+  if(!grid)return;
+  const figs=[...grid.children];
+  for(let i=figs.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[figs[i],figs[j]]=[figs[j],figs[i]]}
+  figs.forEach(f=>grid.appendChild(f));
+  function abrir(f){
+    const img=f.querySelector('img');vImg.src=img.src;vImg.alt=img.alt;vTxt.textContent=f.querySelector('figcaption').textContent;
+    if(visor.showModal)visor.showModal();else visor.setAttribute('open','');
+  }
+  const cerrar=()=>{if(visor.close)visor.close();else visor.removeAttribute('open')};
+  grid.addEventListener('click',e=>{const f=e.target.closest('.foto');if(f)abrir(f)});
+  grid.addEventListener('keydown',e=>{const f=e.target.closest('.foto');if(f&&(e.key==='Enter'||e.key===' ')){e.preventDefault();abrir(f)}});
+  document.getElementById('visorX').addEventListener('click',cerrar);
+  visor.addEventListener('click',e=>{if(e.target===visor||e.target===vImg)cerrar()});
 })();
 </script>
 
