@@ -211,8 +211,18 @@ a.reel{text-decoration:none}
 .rv-card{position:relative;height:min(84vh,calc((100vw - 32px)*16/9));aspect-ratio:9/16;max-width:calc(100vw - 32px);border-radius:22px;overflow:hidden;background:#000;box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 0 3px rgba(255,255,255,.08);touch-action:pan-x pan-y}
 .rv-card video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .rv-nozzle{position:absolute;left:-4%;right:-4%;top:100%;height:4px;background:#e68b3a;box-shadow:0 0 18px 4px rgba(230,139,58,.8);opacity:0;pointer-events:none}
-.rv-prog{position:absolute;left:12px;right:12px;top:12px;height:3px;border-radius:3px;background:rgba(255,255,255,.3);overflow:hidden}
-.rv-prog i{display:block;height:100%;width:0;background:#fff}
+.rv-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform-origin:center}
+.rv-fin{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:10px;padding:24px;text-align:center;color:#fff;background:radial-gradient(circle at 50% 35%,#1ebbd7,#0b5f73 70%)}
+.rv-fin svg{width:96px;height:auto}
+.rv-fin-t{margin:6px 0 0;font-family:var(--f-display);font-size:clamp(28px,4.2vh,40px);line-height:1.05}
+.rv-fin-s{margin:0;font-size:16px;color:#001f3f}
+.rv-segs{position:absolute;left:10px;right:10px;top:10px;display:flex;gap:4px;z-index:2}
+.rv-segs i{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.35);overflow:hidden}
+.rv-segs b{display:block;height:100%;width:0;background:#fff}
+.rv-tap{position:absolute;top:0;bottom:38%;width:38%;border:0;background:none;padding:0;cursor:pointer;z-index:1;-webkit-tap-highlight-color:transparent}
+.rv-tap-l{left:0}.rv-tap-r{right:0;width:62%}
+.rv-tap:focus-visible{outline:3px solid #e68b3a;outline-offset:-6px;border-radius:22px}
+.rv-info{z-index:1}
 .rv-info{position:absolute;inset:auto 0 0 0;padding:60px 18px 18px;background:linear-gradient(transparent,rgba(0,15,30,.85));color:#fff}
 .rv-info h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:clamp(24px,3.4vh,32px);line-height:1.05}
 .rv-info p{margin:6px 0 0;font-size:15px;line-height:1.35;opacity:.92}
@@ -365,23 +375,23 @@ footer a{color:inherit}
         <p>Videos cortos de nuestros trabajos. Deslizá para ver más.</p>
       </div>
       <div class="reels" id="reels">
-        <article class="reel vid" tabindex="0">
+        <article class="reel vid" tabindex="0" data-historia="godzilla,snoopy,copa,dummy-blanco">
           <video src="videos/personajes.mp4" poster="videos/personajes.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
           <div class="meta"><h3>Personajes y personalizados</h3><p>Stitch, Groot, tazas de tu club y nombres con bandera.</p></div>
         </article>
-        <article class="reel vid" tabindex="0">
+        <article class="reel vid" tabindex="0" data-historia="topper-costurera,bolas-navidad,llavero-nombre,adornos-navidad">
           <video src="videos/letras.mp4" poster="videos/letras.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
           <div class="meta"><h3>Letras para toppers</h3><p>Nombres y números para tu torta, letra por letra.</p></div>
         </article>
-        <article class="reel vid" tabindex="0">
+        <article class="reel vid" tabindex="0" data-historia="tiburon-avion,robot-dueno,dummy13,dummy-amarillo,dummy-blanco">
           <video src="videos/fidgets.mp4" poster="videos/fidgets.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
           <div class="meta"><h3>Fidgets y juguetes</h3><p>Cubos, espirales y encastres para no soltar.</p></div>
         </article>
-        <article class="reel vid" tabindex="0">
+        <article class="reel vid" tabindex="0" data-historia="cascos,maceta-molde,molde-maceta,tiburon-avion">
           <video src="videos/juegos.mp4" poster="videos/juegos.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
           <div class="meta"><h3>Juegos didácticos</h3><p>Números, ta-te-ti con nombre y más, para aprender jugando.</p></div>
         </article>
-        <article class="reel vid" tabindex="0">
+        <article class="reel vid" tabindex="0" data-historia="llavero-nombre,servilletero-montanas,bolas-navidad,adornos-navidad">
           <video src="videos/llaveros.mp4" poster="videos/llaveros.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
           <div class="meta"><h3>Llaveros y cositas</h3><p>Gusanitos articulados, corazones, enhebrados. Para regalar o regalarte.</p></div>
         </article>
@@ -764,9 +774,17 @@ footer a{color:inherit}
   <div class="rv-bg" id="rvBg"></div>
   <div class="rv-stage" id="rvStage">
     <div class="rv-card" id="rvCard">
-      <video id="rvVideo" muted loop playsinline></video>
+      <img id="rvImg" alt="" hidden>
+      <video id="rvVideo" muted playsinline hidden></video>
+      <div class="rv-fin" id="rvFin" hidden>
+        <svg viewBox="0 0 100 88" aria-hidden="true"><path fill-rule="evenodd" fill="#e68b3a" d="M25 0H75L100 44L75 88H25L0 44Z M50 21a23 23 0 1 0 0.01 0Z"/></svg>
+        <p class="rv-fin-t">¿Querés uno así?</p>
+        <p class="rv-fin-s">Mandanos la idea y te lo imprimimos.</p>
+      </div>
       <div class="rv-nozzle" id="rvNozzle" aria-hidden="true"></div>
-      <div class="rv-prog"><i id="rvProg"></i></div>
+      <div class="rv-segs" id="rvSegs"></div>
+      <button class="rv-tap rv-tap-l" id="rvTapL" type="button" aria-label="Anterior"></button>
+      <button class="rv-tap rv-tap-r" id="rvTapR" type="button" aria-label="Siguiente"></button>
       <div class="rv-info">
         <p class="rv-count" id="rvCount"></p>
         <h3 id="rvTitle"></h3>
@@ -774,33 +792,75 @@ footer a{color:inherit}
         <a class="cta rv-cta" id="rvCta" href="https://wa.me/541131825636" target="_blank" rel="noopener">¡Lo quiero!</a>
       </div>
     </div>
-    <button class="rv-nav rv-prev" id="rvPrev" type="button" aria-label="Video anterior">‹</button>
-    <button class="rv-nav rv-next" id="rvNext" type="button" aria-label="Video siguiente">›</button>
+    <button class="rv-nav rv-prev" id="rvPrev" type="button" aria-label="Categoría anterior">‹</button>
+    <button class="rv-nav rv-next" id="rvNext" type="button" aria-label="Categoría siguiente">›</button>
   </div>
   <button class="rv-x" id="rvX" type="button" aria-label="Cerrar">×</button>
-  <p class="rv-hint" id="rvHint">Deslizá para ver otro</p>
+  <p class="rv-hint" id="rvHint">Tocá a los costados para avanzar · deslizá para cambiar de tema</p>
 </div>
 <script>
 (function(){
-  /* ---------- Reels a pantalla completa: la tarjeta salta y se "imprime" capa por capa ---------- */
+  /* ---------- Historias: al tocar un reel se abren fotos y videos relacionados, no el mismo video ---------- */
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const rv=document.getElementById('rv'),card=document.getElementById('rvCard'),vid=document.getElementById('rvVideo'),noz=document.getElementById('rvNozzle'),
-        prog=document.getElementById('rvProg'),tit=document.getElementById('rvTitle'),desc=document.getElementById('rvDesc'),cta=document.getElementById('rvCta'),
-        cnt=document.getElementById('rvCount'),reels=document.getElementById('reels'),bg=document.getElementById('rvBg');
+  const $=id=>document.getElementById(id);
+  const rv=$('rv'),card=$('rvCard'),img=$('rvImg'),vid=$('rvVideo'),fin=$('rvFin'),noz=$('rvNozzle'),segs=$('rvSegs'),
+        tit=$('rvTitle'),desc=$('rvDesc'),cta=$('rvCta'),cnt=$('rvCount'),bg=$('rvBg'),reels=$('reels');
   if(!rv||!reels)return;
-  let lista=[],idx=0,abierto=false,origen=null;
-  const datos=a=>({src:a.querySelector('video').getAttribute('src'),poster:a.querySelector('video').getAttribute('poster'),t:a.querySelector('h3').textContent,d:a.querySelector('.meta p').textContent,el:a});
-  function cargar(i,dir){
-    idx=(i+lista.length)%lista.length;const r=lista[idx];
-    vid.src=r.src;vid.poster=r.poster;tit.textContent=r.t;desc.textContent=r.d;cnt.textContent=(idx+1)+' / '+lista.length;
-    cta.href='https://wa.me/541131825636?text='+encodeURIComponent('Hola DO-IT-3D! Vi el video de "'+r.t+'" en la web y quiero algo así');
-    const pr=vid.play();if(pr)pr.catch(()=>{});
-    if(dir&&!reduce)card.animate([{transform:`translateY(${dir*60}px) scale(.94)`,opacity:0},{transform:'none',opacity:1}],{duration:380,easing:'cubic-bezier(.2,1.3,.4,1)'});
-    imprimir(dir?420:900);
+  const FOTO_MS=3800;
+  let temas=[],t=0,items=[],k=0,abierto=false,origen=null,timer=null,segAnim=null,zoom=null;
+
+  const leyenda=src=>{const f=document.querySelector('.galeria img[src="'+src+'"]');return f?f.alt:''};
+  function armarTema(a){
+    const lista=(a.dataset.historia||'').split(',').map(s=>s.trim()).filter(Boolean);
+    const its=lista.map(n=>n.endsWith('.mp4')?{tipo:'video',src:'videos/'+n,cap:''}:{tipo:'foto',src:'fotos/'+n+'.jpg',cap:leyenda('fotos/'+n+'.jpg')});
+    if(!its.length){const v=a.querySelector('video');its.push({tipo:'video',src:v.getAttribute('src'),cap:''})}
+    its.push({tipo:'fin',cap:''});
+    return {el:a,titulo:a.querySelector('h3').textContent,desc:a.querySelector('.meta p').textContent,items:its};
+  }
+  function segmentos(){
+    segs.innerHTML='';items.forEach(()=>{const i=document.createElement('i');i.appendChild(document.createElement('b'));segs.appendChild(i)});
+  }
+  function pintarSegs(){
+    [...segs.children].forEach((s,i)=>{const b=s.firstChild;b.getAnimations().forEach(a=>a.cancel());b.style.width=i<k?'100%':'0%'});
+  }
+  function siguiente(){if(k<items.length-1)mostrar(k+1,1);else if(t<temas.length-1)tema(t+1,1);else cerrar()}
+  function anterior(){if(k>0)mostrar(k-1,-1);else if(t>0)tema(t-1,-1)}
+  function mostrar(i,dir){
+    clearTimeout(timer);segAnim&&segAnim.cancel();zoom&&zoom.cancel();
+    k=i;const it=items[k];pintarSegs();
+    img.hidden=it.tipo!=='foto';vid.hidden=it.tipo!=='video';fin.hidden=it.tipo!=='fin';
+    vid.pause();
+    desc.textContent=it.cap||temas[t].desc;
+    const b=segs.children[k].firstChild;
+    const avanzar=ms=>{
+      if(reduce){b.style.width='100%';timer=setTimeout(siguiente,ms);return}
+      segAnim=b.animate([{width:'0%'},{width:'100%'}],{duration:ms,easing:'linear',fill:'forwards'});segAnim.onfinish=siguiente;
+    };
+    if(it.tipo==='foto'){
+      img.src=it.src;img.alt=it.cap;
+      if(!reduce)zoom=img.animate([{transform:'scale(1.02)'},{transform:`scale(1.16) translate(${(Math.random()-.5)*6}%,${(Math.random()-.5)*6}%)`}],{duration:FOTO_MS+400,easing:'ease-out',fill:'forwards'});
+      avanzar(FOTO_MS);
+    }else if(it.tipo==='video'){
+      vid.src=it.src;vid.currentTime=0;const pr=vid.play();if(pr)pr.catch(()=>{});
+      const go=()=>avanzar(Math.max(2500,(vid.duration||8)*1000));
+      vid.readyState>0?go():vid.addEventListener('loadedmetadata',go,{once:true});
+    }else{
+      avanzar(4500);
+      if(!reduce)fin.firstElementChild.animate([{transform:'scale(.4) rotate(-120deg)',opacity:0},{transform:'scale(1.1) rotate(10deg)',opacity:1,offset:.7},{transform:'none'}],{duration:700,easing:'cubic-bezier(.2,1.3,.4,1)'});
+    }
+    if(dir&&!reduce){const el=it.tipo==='foto'?img:it.tipo==='video'?vid:fin;el.animate([{opacity:0},{opacity:1}],{duration:260})}
+  }
+  function tema(i,dir){
+    t=(i+temas.length)%temas.length;items=temas[t].items;
+    tit.textContent=temas[t].titulo;cnt.textContent=(t+1)+' / '+temas.length;
+    cta.href='https://wa.me/541131825636?text='+encodeURIComponent('Hola DO-IT-3D! Vi "'+temas[t].titulo+'" en la web y quiero algo así');
+    segmentos();mostrar(0,0);
+    if(!reduce){
+      if(dir)card.animate([{transform:`translateY(${dir*60}px) scale(.94)`,opacity:0},{transform:'none',opacity:1}],{duration:380,easing:'cubic-bezier(.2,1.3,.4,1)'});
+      imprimir(dir?420:900);
+    }
   }
   function imprimir(ms){
-    if(reduce)return;
-    // capas: el video aparece de abajo hacia arriba en escalones, con la boquilla marcando la capa
     card.animate([{clipPath:'inset(100% 0 0 0 round 22px)'},{clipPath:'inset(0 0 0 0 round 22px)'}],{duration:ms,easing:'steps(28,end)'});
     noz.animate([{top:'100%',opacity:1},{top:'0%',opacity:1},{top:'0%',opacity:0}],{duration:ms+200,easing:'linear'});
   }
@@ -815,41 +875,44 @@ footer a{color:inherit}
     }
   }
   function abrir(a){
-    lista=[...reels.querySelectorAll('article.reel.vid')].map(datos);
-    const i=lista.findIndex(r=>r.el===a);origen=a;
+    temas=[...reels.querySelectorAll('article.reel.vid')].map(armarTema);
+    const i=temas.findIndex(x=>x.el===a);origen=a;
     rv.hidden=false;abierto=true;document.documentElement.style.overflow='hidden';
     reels.querySelectorAll('video').forEach(v=>v.pause());
-    cargar(i<0?0:i,0);
+    tema(i<0?0:i,0);
     if(!reduce){
-      // la tarjeta vuela desde su lugar en la página hasta el centro
       const a0=a.getBoundingClientRect(),b=card.getBoundingClientRect();
       const sx=a0.width/b.width,dx=a0.left+a0.width/2-(b.left+b.width/2),dy=a0.top+a0.height/2-(b.top+b.height/2);
       card.animate([{transform:`translate(${dx}px,${dy}px) scale(${sx}) rotate(-4deg)`},{transform:'translate(0,-14px) scale(1.04) rotate(1deg)',offset:.7},{transform:'none'}],{duration:620,easing:'cubic-bezier(.2,.9,.3,1)'});
       bg.animate([{opacity:0},{opacity:1}],{duration:300});
       setTimeout(()=>{const c=card.getBoundingClientRect();confeti(c.left+c.width/2,c.top+c.height*.35)},380);
     }
-    document.getElementById('rvX').focus({preventScroll:true});
+    $('rvX').focus({preventScroll:true});
   }
   function cerrar(){
-    if(!abierto)return;abierto=false;vid.pause();
-    const fin=()=>{rv.hidden=true;vid.removeAttribute('src');vid.load();document.documentElement.style.overflow='';origen?.focus({preventScroll:true})};
-    if(reduce)return fin();
+    if(!abierto)return;abierto=false;clearTimeout(timer);segAnim&&segAnim.cancel();vid.pause();
+    const fin2=()=>{rv.hidden=true;vid.removeAttribute('src');vid.load();document.documentElement.style.overflow='';origen?.focus({preventScroll:true})};
+    if(reduce)return fin2();
     card.animate([{transform:'none',opacity:1},{transform:'scale(.85) translateY(40px)',opacity:0}],{duration:240,easing:'ease-in'});
-    bg.animate([{opacity:1},{opacity:0}],{duration:260}).onfinish=fin;
+    bg.animate([{opacity:1},{opacity:0}],{duration:260}).onfinish=fin2;
   }
-  vid.addEventListener('timeupdate',()=>{if(vid.duration)prog.style.width=(vid.currentTime/vid.duration*100)+'%'});
   reels.addEventListener('click',e=>{const a=e.target.closest('article.reel.vid');if(a)setTimeout(()=>abrir(a),reduce?0:180)});
   reels.addEventListener('keydown',e=>{const a=e.target.closest('article.reel.vid');if(a&&(e.key==='Enter'||e.key===' '))setTimeout(()=>abrir(a),reduce?0:180)});
-  document.getElementById('rvX').addEventListener('click',cerrar);
-  bg.addEventListener('click',cerrar);
-  document.getElementById('rvPrev').addEventListener('click',()=>cargar(idx-1,-1));
-  document.getElementById('rvNext').addEventListener('click',()=>cargar(idx+1,1));
-  addEventListener('keydown',e=>{if(!abierto)return;if(e.key==='Escape')cerrar();if(e.key==='ArrowRight'||e.key==='ArrowDown')cargar(idx+1,1);if(e.key==='ArrowLeft'||e.key==='ArrowUp')cargar(idx-1,-1)});
-  // deslizar en el celu: arriba/izquierda = siguiente
-  let t0=null;
+  $('rvX').addEventListener('click',cerrar);bg.addEventListener('click',cerrar);
+  $('rvTapL').addEventListener('click',anterior);$('rvTapR').addEventListener('click',siguiente);
+  $('rvPrev').addEventListener('click',()=>tema(t-1,-1));$('rvNext').addEventListener('click',()=>tema(t+1,1));
+  addEventListener('keydown',e=>{if(!abierto)return;
+    if(e.key==='Escape')cerrar();else if(e.key==='ArrowRight')siguiente();else if(e.key==='ArrowLeft')anterior();
+    else if(e.key==='ArrowDown'){e.preventDefault();tema(t+1,1)}else if(e.key==='ArrowUp'){e.preventDefault();tema(t-1,-1)}});
+  // mantener apretado pausa, como en las historias
+  const pausa=on=>{if(!segAnim)return;if(on){segAnim.pause();zoom&&zoom.pause();vid.pause()}else{segAnim.play();zoom&&zoom.play();if(!vid.hidden)vid.play().catch(()=>{})}};
+  let t0=null,pt=null;
+  card.addEventListener('pointerdown',e=>{if(e.target.closest('a'))return;pt=setTimeout(()=>pausa(true),220)});
+  ['pointerup','pointercancel','pointerleave'].forEach(n=>card.addEventListener(n,()=>{clearTimeout(pt);pausa(false)}));
+  // deslizar arriba/abajo cambia de tema
   card.addEventListener('touchstart',e=>{t0=[e.touches[0].clientX,e.touches[0].clientY]},{passive:true});
   card.addEventListener('touchend',e=>{if(!t0)return;const dx=e.changedTouches[0].clientX-t0[0],dy=e.changedTouches[0].clientY-t0[1];t0=null;
-    if(Math.max(Math.abs(dx),Math.abs(dy))<40)return;const sig=Math.abs(dy)>Math.abs(dx)?dy<0:dx<0;cargar(idx+(sig?1:-1),sig?1:-1)},{passive:true});
+    if(Math.abs(dy)>50&&Math.abs(dy)>Math.abs(dx)){dy<0?tema(t+1,1):tema(t-1,-1)}},{passive:true});
 })();
 </script>
 
