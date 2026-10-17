@@ -241,6 +241,18 @@ a.reel{text-decoration:none}
 .rv-chip{position:fixed;width:14px;height:12px;clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);pointer-events:none;z-index:3}
 @media (max-width:640px){.rv-nav{display:none}.rv-hint{display:block}.rv-card{height:min(80vh,calc((100vw - 32px)*16/9))}}
 
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:-6px 0 18px}
+.filtro{font:inherit;font-size:15px;font-weight:500;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:99px;padding:5px 14px;cursor:pointer;transition:transform .15s,background .15s}
+.filtro:hover{transform:translateY(-2px);border-color:var(--naranja)}
+.filtro[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.filtro:focus-visible{outline:3px solid var(--naranja);outline-offset:2px}
+/* marcas compactas */
+.amigas{grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:12px}
+.amiga .tile{aspect-ratio:4/3;padding:10px;border-radius:14px;margin-bottom:5px}
+.amiga .tile img{max-height:48px}.amiga .tile img.round{max-height:62px}.amiga .tile img.tall{max-height:66px}
+.amiga .nm{font-size:13.5px;font-weight:600}
+.amiga .ds{display:none}
+
 /* pasos */
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;list-style:none;padding:0;margin:0;counter-reset:s}
 .steps li{counter-increment:s;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:22px;transition:transform .25s cubic-bezier(.3,1.8,.5,1)}
@@ -330,6 +342,26 @@ html{overflow-x:hidden;overflow-x:clip}
   .steps{grid-template-columns:1fr}
   section{padding-block:40px}
 }
+/* celular: todo más compacto */
+@media (max-width:560px){
+  .galeria{columns:2;column-gap:8px}
+  .foto{margin-bottom:8px;border-radius:12px}
+  .foto figcaption{font-size:12px;padding:22px 8px 6px}
+  .chips{flex-wrap:nowrap;overflow-x:auto;margin-inline:-16px;padding:2px 16px 6px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .filtro{flex:none;font-size:14px}
+  .amigas{grid-template-columns:repeat(3,1fr);gap:8px}
+  .amiga .tile{padding:6px;margin-bottom:3px}
+  .amiga .tile img{max-height:34px}.amiga .tile img.round{max-height:46px}.amiga .tile img.tall{max-height:50px}
+  .amiga .nm{font-size:12px;line-height:1.15}
+  .steps{gap:10px}
+  .steps li{display:grid;grid-template-columns:auto 1fr;column-gap:14px;align-items:center;padding:14px 16px}
+  .steps li::before{grid-row:span 2;width:44px;height:38px;font-size:22px;margin:0}
+  .steps h3{margin:0;font-size:18px}
+  .steps p{font-size:15px;line-height:1.35}
+  section{padding-block:32px}
+  .head{margin-bottom:14px}
+}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
 }
@@ -380,25 +412,17 @@ html{overflow-x:hidden;overflow-x:clip}
         <p>Videos cortos de nuestros trabajos. Deslizá para ver más.</p>
       </div>
       <div class="reels" id="reels">
-        <article class="reel vid" tabindex="0" data-historia="topper-stranger,topper-harry,topper-stitch,topper-pikachu,topper-marshmello,topper-jurassic,topper-amongus,topper-moni,torta-21,topper-flores-21,toppers-flores,topper-costurera,estrella-impresora">
+        <article class="reel vid" tabindex="0" data-historia="letras.mp4,topper-stranger,topper-harry,topper-stitch,topper-pikachu,topper-marshmello,topper-jurassic,topper-amongus,topper-moni,torta-21,topper-flores-21,toppers-flores,topper-costurera,estrella-impresora">
           <video src="videos/topper-21.mp4" poster="videos/topper-21.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
           <div class="meta"><h3>Toppers de cumple</h3><p>Números, flores y nombres para coronar la torta.</p></div>
-        </article>
-        <article class="reel vid" tabindex="0" data-historia="dinos.mp4,calamar,tiburon-avion,fidgets-set">
-          <video src="videos/trex.mp4" poster="videos/trex.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
-          <div class="meta"><h3>Dinos articulados</h3><p>Se mueven, se doblan y se van con vos de llavero.</p></div>
         </article>
         <article class="reel vid" tabindex="0" data-historia="pitufo.mp4,godzilla,snoopy,copa,carnero,dummy-blanco">
           <video src="videos/personajes.mp4" poster="videos/personajes.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
           <div class="meta"><h3>Personajes y personalizados</h3><p>Stitch, Groot, tazas de tu club y nombres con bandera.</p></div>
         </article>
-        <article class="reel vid" tabindex="0" data-historia="topper-moni,souvenirs-nombres,llaveros-nombres,topper-costurera,portacel-epsilon,bolas-navidad,llavero-nombre">
-          <video src="videos/letras.mp4" poster="videos/letras.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
-          <div class="meta"><h3>Letras para toppers</h3><p>Nombres y números para tu torta, letra por letra.</p></div>
-        </article>
-        <article class="reel vid" tabindex="0" data-historia="fidgets-juego.mp4,fidgets-set,calamar,imprimiendo.mp4,tiburon-avion,robot-dueno,dummy13,dummy-amarillo,dummy-blanco">
+        <article class="reel vid" tabindex="0" data-historia="trex.mp4,dinos.mp4,fidgets-juego.mp4,fidgets-set,calamar,imprimiendo.mp4,tiburon-avion,robot-dueno,dummy13,dummy-amarillo,dummy-blanco">
           <video src="videos/fidgets.mp4" poster="videos/fidgets.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
-          <div class="meta"><h3>Fidgets y juguetes</h3><p>Cubos, espirales y encastres para no soltar.</p></div>
+          <div class="meta"><h3>Juguetes y fidgets</h3><p>Cubos, espirales, dinos y bichos articulados.</p></div>
         </article>
         <article class="reel vid" tabindex="0" data-historia="bateria-social,bateria-social-escritorio,cortantes-galletas,cascos,maceta-molde">
           <video src="videos/juegos.mp4" poster="videos/juegos.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
@@ -425,56 +449,64 @@ html{overflow-x:hidden;overflow-x:clip}
         <h2>Hecho en el taller</h2>
         <p>Fotos de trabajos reales.</p>
       </div>
+      <div class="chips" id="chips" role="group" aria-label="Filtrar fotos">
+        <button type="button" class="filtro" data-f="todo" aria-pressed="true">Todo</button>
+        <button type="button" class="filtro" data-f="toppers" aria-pressed="false">Toppers</button>
+        <button type="button" class="filtro" data-f="nombres" aria-pressed="false">Nombres y llaveros</button>
+        <button type="button" class="filtro" data-f="juguetes" aria-pressed="false">Juguetes y personajes</button>
+        <button type="button" class="filtro" data-f="casa" aria-pressed="false">Casa y regalos</button>
+        <button type="button" class="filtro" data-f="mascotas" aria-pressed="false">Mascotas</button>
+      </div>
       <div class="galeria" id="galeria-grid">
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Dummy 13 recién impreso, con manos para intercambiar"><img src="fotos/dummy13.jpg" alt="Dummy 13 recién impreso, con manos para intercambiar" width="474" height="900" loading="lazy"><figcaption>Dummy 13 recién impreso, con manos para intercambiar</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Llavero con nombre"><img src="fotos/llavero-nombre.jpg" alt="Llavero con nombre" width="405" height="900" loading="lazy"><figcaption>Llavero con nombre</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Tiburón articulado y avioncito"><img src="fotos/tiburon-avion.jpg" alt="Tiburón articulado y avioncito" width="405" height="900" loading="lazy"><figcaption>Tiburón articulado y avioncito</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Servilletero con montañas para Sukha, almacén serrano"><img src="fotos/servilletero-montanas.jpg" alt="Servilletero con montañas para Sukha, almacén serrano" width="405" height="900" loading="lazy"><figcaption>Servilletero con montañas para Sukha, almacén serrano</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Cascos en miniatura, recién salidos de la cama"><img src="fotos/cascos.jpg" alt="Cascos en miniatura, recién salidos de la cama" width="729" height="900" loading="lazy"><figcaption>Cascos en miniatura, recién salidos de la cama</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Bolas navideñas con nombre"><img src="fotos/bolas-navidad.jpg" alt="Bolas navideñas con nombre" width="405" height="900" loading="lazy"><figcaption>Bolas navideñas con nombre</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Adornos navideños personalizados"><img src="fotos/adornos-navidad.jpg" alt="Adornos navideños personalizados" width="767" height="900" loading="lazy"><figcaption>Adornos navideños personalizados</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Molde impreso y la maceta de cemento que sale de él"><img src="fotos/maceta-molde.jpg" alt="Molde impreso y la maceta de cemento que sale de él" width="808" height="900" loading="lazy"><figcaption>Molde impreso y la maceta de cemento que sale de él</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Molde para macetas, en partes"><img src="fotos/molde-maceta.jpg" alt="Molde para macetas, en partes" width="405" height="900" loading="lazy"><figcaption>Molde para macetas, en partes</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Topper de torta con nombre y máquina de coser"><img src="fotos/topper-costurera.jpg" alt="Topper de torta con nombre y máquina de coser" width="587" height="900" loading="lazy"><figcaption>Topper de torta con nombre y máquina de coser</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Robot articulado, con su dueño feliz"><img src="fotos/robot-dueno.jpg" alt="Robot articulado, con su dueño feliz" width="405" height="900" loading="lazy"><figcaption>Robot articulado, con su dueño feliz</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Dummy 13 amarillo, en manos de su dueña"><img src="fotos/dummy-amarillo.jpg" alt="Dummy 13 amarillo, en manos de su dueña" width="405" height="900" loading="lazy"><figcaption>Dummy 13 amarillo, en manos de su dueña</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Dummy 13 blanco, listo para jugar"><img src="fotos/dummy-blanco.jpg" alt="Dummy 13 blanco, listo para jugar" width="900" height="405" loading="lazy"><figcaption>Dummy 13 blanco, listo para jugar</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Godzilla de colección"><img src="fotos/godzilla.jpg" alt="Godzilla de colección" width="405" height="900" loading="lazy"><figcaption>Godzilla de colección</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Réplica de la Copa del Mundo"><img src="fotos/copa.jpg" alt="Réplica de la Copa del Mundo" width="506" height="900" loading="lazy"><figcaption>Réplica de la Copa del Mundo</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Snoopy, impreso y pintado"><img src="fotos/snoopy.jpg" alt="Snoopy, impreso y pintado" width="405" height="900" loading="lazy"><figcaption>Snoopy, impreso y pintado</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Lámpara luna, para dormir con luz"><img src="fotos/lampara-luna.jpg" alt="Lámpara luna, para dormir con luz" width="405" height="900" loading="lazy"><figcaption>Lámpara luna, para dormir con luz</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Porta celulares con nombre para Química Epsilon"><img src="fotos/portacel-epsilon.jpg" alt="Porta celulares con nombre para Química Epsilon" width="900" height="405" loading="lazy"><figcaption>Porta celulares con nombre para Química Epsilon</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Chivo con tuercas de Frankenstein: accesorio para el Corsa «Franky»"><img src="fotos/carnero.jpg" alt="Chivo con tuercas de Frankenstein: accesorio para el Corsa «Franky»" width="405" height="900" loading="lazy"><figcaption>Chivo con tuercas de Frankenstein: accesorio para el Corsa «Franky»</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Topper de flores y número en la torta de cumple"><img src="fotos/torta-21.jpg" alt="Topper de flores y número en la torta de cumple" width="900" height="564" loading="lazy"><figcaption>Topper de flores y número en la torta de cumple</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Topper de flores con número 21"><img src="fotos/topper-flores-21.jpg" alt="Topper de flores con número 21" width="725" height="900" loading="lazy"><figcaption>Topper de flores con número 21</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Toppers de flores en dos colores"><img src="fotos/toppers-flores.jpg" alt="Toppers de flores en dos colores" width="900" height="426" loading="lazy"><figcaption>Toppers de flores en dos colores</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Señaladores y clips de flores para lectores"><img src="fotos/senaladores.jpg" alt="Señaladores y clips de flores para lectores" width="675" height="900" loading="lazy"><figcaption>Señaladores y clips de flores para lectores</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Sujeta páginas con nombre"><img src="fotos/sujetapaginas-nombre.jpg" alt="Sujeta páginas con nombre" width="405" height="900" loading="lazy"><figcaption>Sujeta páginas con nombre</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Clips de flores para libros y cuadernos"><img src="fotos/clips-flores.jpg" alt="Clips de flores para libros y cuadernos" width="900" height="405" loading="lazy"><figcaption>Clips de flores para libros y cuadernos</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Mi batería social: para contar cómo te sentís"><img src="fotos/bateria-social.jpg" alt="Mi batería social: para contar cómo te sentís" width="900" height="405" loading="lazy"><figcaption>Mi batería social: para contar cómo te sentís</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Batería social en el escritorio"><img src="fotos/bateria-social-escritorio.jpg" alt="Batería social en el escritorio" width="405" height="900" loading="lazy"><figcaption>Batería social en el escritorio</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Cortantes para galletitas"><img src="fotos/cortantes-galletas.jpg" alt="Cortantes para galletitas" width="405" height="900" loading="lazy"><figcaption>Cortantes para galletitas</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Llavero con nombre y mini pesas"><img src="fotos/llavero-pesas.jpg" alt="Llavero con nombre y mini pesas" width="405" height="900" loading="lazy"><figcaption>Llavero con nombre y mini pesas</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Calamar articulado"><img src="fotos/calamar.jpg" alt="Calamar articulado" width="405" height="900" loading="lazy"><figcaption>Calamar articulado</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Estrella para el árbol, recién impresa"><img src="fotos/estrella-impresora.jpg" alt="Estrella para el árbol, recién impresa" width="405" height="900" loading="lazy"><figcaption>Estrella para el árbol, recién impresa</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Los colores de filamento del taller"><img src="fotos/taller-filamentos.jpg" alt="Los colores de filamento del taller" width="734" height="900" loading="lazy"><figcaption>Los colores de filamento del taller</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Fidgets de todos los colores"><img src="fotos/fidgets-set.jpg" alt="Fidgets de todos los colores" width="405" height="900" loading="lazy"><figcaption>Fidgets de todos los colores</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Topper de Stranger Things con nombre"><img src="fotos/topper-stranger.jpg" alt="Topper de Stranger Things con nombre" width="405" height="900" loading="lazy"><figcaption>Topper de Stranger Things con nombre</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Topper de Harry Potter para el cumple"><img src="fotos/topper-harry.jpg" alt="Topper de Harry Potter para el cumple" width="405" height="900" loading="lazy"><figcaption>Topper de Harry Potter para el cumple</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Topper con nombre en dorado"><img src="fotos/topper-moni.jpg" alt="Topper con nombre en dorado" width="900" height="405" loading="lazy"><figcaption>Topper con nombre en dorado</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Topper de Stitch con número"><img src="fotos/topper-stitch.jpg" alt="Topper de Stitch con número" width="599" height="900" loading="lazy"><figcaption>Topper de Stitch con número</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Topper estilo Jurassic Park con nombre"><img src="fotos/topper-jurassic.jpg" alt="Topper estilo Jurassic Park con nombre" width="599" height="900" loading="lazy"><figcaption>Topper estilo Jurassic Park con nombre</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Topper de Marshmello con nombre y número"><img src="fotos/topper-marshmello.jpg" alt="Topper de Marshmello con nombre y número" width="900" height="865" loading="lazy"><figcaption>Topper de Marshmello con nombre y número</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Topper de Among Us con nombre y número"><img src="fotos/topper-amongus.jpg" alt="Topper de Among Us con nombre y número" width="405" height="900" loading="lazy"><figcaption>Topper de Among Us con nombre y número</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Topper de Pikachu con nombre y número"><img src="fotos/topper-pikachu.jpg" alt="Topper de Pikachu con nombre y número" width="405" height="900" loading="lazy"><figcaption>Topper de Pikachu con nombre y número</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Llavero con nombre en tres colores"><img src="fotos/llavero-tizi.jpg" alt="Llavero con nombre en tres colores" width="900" height="754" loading="lazy"><figcaption>Llavero con nombre en tres colores</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Llaveros con nombre para todo el grupo"><img src="fotos/llaveros-nombres.jpg" alt="Llaveros con nombre para todo el grupo" width="589" height="900" loading="lazy"><figcaption>Llaveros con nombre para todo el grupo</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Llaveros nube con nombre, para souvenirs"><img src="fotos/llaveros-nubes.jpg" alt="Llaveros nube con nombre, para souvenirs" width="900" height="405" loading="lazy"><figcaption>Llaveros nube con nombre, para souvenirs</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Llaveros con inicial y nombre"><img src="fotos/llaveros-milo.jpg" alt="Llaveros con inicial y nombre" width="900" height="405" loading="lazy"><figcaption>Llaveros con inicial y nombre</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Souvenirs con nombre, en tanda"><img src="fotos/souvenirs-nombres.jpg" alt="Souvenirs con nombre, en tanda" width="405" height="900" loading="lazy"><figcaption>Souvenirs con nombre, en tanda</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Llaveros para Poli Indumentaria"><img src="fotos/llaveros-poli.jpg" alt="Llaveros para Poli Indumentaria" width="405" height="900" loading="lazy"><figcaption>Llaveros para Poli Indumentaria</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Chapitas para mascotas con forma de hueso"><img src="fotos/chapitas-hueso.jpg" alt="Chapitas para mascotas con forma de hueso" width="540" height="900" loading="lazy"><figcaption>Chapitas para mascotas con forma de hueso</figcaption></figure>
-          <figure class="foto" tabindex="0" role="button" aria-label="Ver grande: Chapitas con nombre para tu mascota"><img src="fotos/chapitas-corazon.jpg" alt="Chapitas con nombre para tu mascota" width="405" height="900" loading="lazy"><figcaption>Chapitas con nombre para tu mascota</figcaption></figure>
+          <figure class="foto" data-cat="juguetes" tabindex="0" role="button" aria-label="Ver grande: Dummy 13 recién impreso, con manos para intercambiar"><img src="fotos/dummy13.jpg" alt="Dummy 13 recién impreso, con manos para intercambiar" width="474" height="900" loading="lazy"><figcaption>Dummy 13 recién impreso, con manos para intercambiar</figcaption></figure>
+          <figure class="foto" data-cat="nombres" tabindex="0" role="button" aria-label="Ver grande: Llavero con nombre"><img src="fotos/llavero-nombre.jpg" alt="Llavero con nombre" width="405" height="900" loading="lazy"><figcaption>Llavero con nombre</figcaption></figure>
+          <figure class="foto" data-cat="juguetes" tabindex="0" role="button" aria-label="Ver grande: Tiburón articulado y avioncito"><img src="fotos/tiburon-avion.jpg" alt="Tiburón articulado y avioncito" width="405" height="900" loading="lazy"><figcaption>Tiburón articulado y avioncito</figcaption></figure>
+          <figure class="foto" data-cat="casa" tabindex="0" role="button" aria-label="Ver grande: Servilletero con montañas para Sukha, almacén serrano"><img src="fotos/servilletero-montanas.jpg" alt="Servilletero con montañas para Sukha, almacén serrano" width="405" height="900" loading="lazy"><figcaption>Servilletero con montañas para Sukha, almacén serrano</figcaption></figure>
+          <figure class="foto" data-cat="casa" tabindex="0" role="button" aria-label="Ver grande: Cascos en miniatura, recién salidos de la cama"><img src="fotos/cascos.jpg" alt="Cascos en miniatura, recién salidos de la cama" width="729" height="900" loading="lazy"><figcaption>Cascos en miniatura, recién salidos de la cama</figcaption></figure>
+          <figure class="foto" data-cat="nombres" tabindex="0" role="button" aria-label="Ver grande: Bolas navideñas con nombre"><img src="fotos/bolas-navidad.jpg" alt="Bolas navideñas con nombre" width="405" height="900" loading="lazy"><figcaption>Bolas navideñas con nombre</figcaption></figure>
+          <figure class="foto" data-cat="nombres" tabindex="0" role="button" aria-label="Ver grande: Adornos navideños personalizados"><img src="fotos/adornos-navidad.jpg" alt="Adornos navideños personalizados" width="767" height="900" loading="lazy"><figcaption>Adornos navideños personalizados</figcaption></figure>
+          <figure class="foto" data-cat="casa" tabindex="0" role="button" aria-label="Ver grande: Molde impreso y la maceta de cemento que sale de él"><img src="fotos/maceta-molde.jpg" alt="Molde impreso y la maceta de cemento que sale de él" width="808" height="900" loading="lazy"><figcaption>Molde impreso y la maceta de cemento que sale de él</figcaption></figure>
+          <figure class="foto" data-cat="casa" tabindex="0" role="button" aria-label="Ver grande: Molde para macetas, en partes"><img src="fotos/molde-maceta.jpg" alt="Molde para macetas, en partes" width="405" height="900" loading="lazy"><figcaption>Molde para macetas, en partes</figcaption></figure>
+          <figure class="foto" data-cat="toppers" tabindex="0" role="button" aria-label="Ver grande: Topper de torta con nombre y máquina de coser"><img src="fotos/topper-costurera.jpg" alt="Topper de torta con nombre y máquina de coser" width="587" height="900" loading="lazy"><figcaption>Topper de torta con nombre y máquina de coser</figcaption></figure>
+          <figure class="foto" data-cat="juguetes" tabindex="0" role="button" aria-label="Ver grande: Robot articulado, con su dueño feliz"><img src="fotos/robot-dueno.jpg" alt="Robot articulado, con su dueño feliz" width="405" height="900" loading="lazy"><figcaption>Robot articulado, con su dueño feliz</figcaption></figure>
+          <figure class="foto" data-cat="juguetes" tabindex="0" role="button" aria-label="Ver grande: Dummy 13 amarillo, en manos de su dueña"><img src="fotos/dummy-amarillo.jpg" alt="Dummy 13 amarillo, en manos de su dueña" width="405" height="900" loading="lazy"><figcaption>Dummy 13 amarillo, en manos de su dueña</figcaption></figure>
+          <figure class="foto" data-cat="juguetes" tabindex="0" role="button" aria-label="Ver grande: Dummy 13 blanco, listo para jugar"><img src="fotos/dummy-blanco.jpg" alt="Dummy 13 blanco, listo para jugar" width="900" height="405" loading="lazy"><figcaption>Dummy 13 blanco, listo para jugar</figcaption></figure>
+          <figure class="foto" data-cat="juguetes" tabindex="0" role="button" aria-label="Ver grande: Godzilla de colección"><img src="fotos/godzilla.jpg" alt="Godzilla de colección" width="405" height="900" loading="lazy"><figcaption>Godzilla de colección</figcaption></figure>
+          <figure class="foto" data-cat="juguetes" tabindex="0" role="button" aria-label="Ver grande: Réplica de la Copa del Mundo"><img src="fotos/copa.jpg" alt="Réplica de la Copa del Mundo" width="506" height="900" loading="lazy"><figcaption>Réplica de la Copa del Mundo</figcaption></figure>
+          <figure class="foto" data-cat="juguetes" tabindex="0" role="button" aria-label="Ver grande: Snoopy, impreso y pintado"><img src="fotos/snoopy.jpg" alt="Snoopy, impreso y pintado" width="405" height="900" loading="lazy"><figcaption>Snoopy, impreso y pintado</figcaption></figure>
+          <figure class="foto" data-cat="casa" tabindex="0" role="button" aria-label="Ver grande: Lámpara luna, para dormir con luz"><img src="fotos/lampara-luna.jpg" alt="Lámpara luna, para dormir con luz" width="405" height="900" loading="lazy"><figcaption>Lámpara luna, para dormir con luz</figcaption></figure>
+          <figure class="foto" data-cat="nombres" tabindex="0" role="button" aria-label="Ver grande: Porta celulares con nombre para Química Epsilon"><img src="fotos/portacel-epsilon.jpg" alt="Porta celulares con nombre para Química Epsilon" width="900" height="405" loading="lazy"><figcaption>Porta celulares con nombre para Química Epsilon</figcaption></figure>
+          <figure class="foto" data-cat="casa" tabindex="0" role="button" aria-label="Ver grande: Chivo con tuercas de Frankenstein: accesorio para el Corsa «Franky»"><img src="fotos/carnero.jpg" alt="Chivo con tuercas de Frankenstein: accesorio para el Corsa «Franky»" width="405" height="900" loading="lazy"><figcaption>Chivo con tuercas de Frankenstein: accesorio para el Corsa «Franky»</figcaption></figure>
+          <figure class="foto" data-cat="toppers" tabindex="0" role="button" aria-label="Ver grande: Topper de flores y número en la torta de cumple"><img src="fotos/torta-21.jpg" alt="Topper de flores y número en la torta de cumple" width="900" height="564" loading="lazy"><figcaption>Topper de flores y número en la torta de cumple</figcaption></figure>
+          <figure class="foto" data-cat="toppers" tabindex="0" role="button" aria-label="Ver grande: Topper de flores con número 21"><img src="fotos/topper-flores-21.jpg" alt="Topper de flores con número 21" width="725" height="900" loading="lazy"><figcaption>Topper de flores con número 21</figcaption></figure>
+          <figure class="foto" data-cat="toppers" tabindex="0" role="button" aria-label="Ver grande: Toppers de flores en dos colores"><img src="fotos/toppers-flores.jpg" alt="Toppers de flores en dos colores" width="900" height="426" loading="lazy"><figcaption>Toppers de flores en dos colores</figcaption></figure>
+          <figure class="foto" data-cat="casa" tabindex="0" role="button" aria-label="Ver grande: Señaladores y clips de flores para lectores"><img src="fotos/senaladores.jpg" alt="Señaladores y clips de flores para lectores" width="675" height="900" loading="lazy"><figcaption>Señaladores y clips de flores para lectores</figcaption></figure>
+          <figure class="foto" data-cat="nombres" tabindex="0" role="button" aria-label="Ver grande: Sujeta páginas con nombre"><img src="fotos/sujetapaginas-nombre.jpg" alt="Sujeta páginas con nombre" width="405" height="900" loading="lazy"><figcaption>Sujeta páginas con nombre</figcaption></figure>
+          <figure class="foto" data-cat="casa" tabindex="0" role="button" aria-label="Ver grande: Clips de flores para libros y cuadernos"><img src="fotos/clips-flores.jpg" alt="Clips de flores para libros y cuadernos" width="900" height="405" loading="lazy"><figcaption>Clips de flores para libros y cuadernos</figcaption></figure>
+          <figure class="foto" data-cat="casa" tabindex="0" role="button" aria-label="Ver grande: Mi batería social: para contar cómo te sentís"><img src="fotos/bateria-social.jpg" alt="Mi batería social: para contar cómo te sentís" width="900" height="405" loading="lazy"><figcaption>Mi batería social: para contar cómo te sentís</figcaption></figure>
+          <figure class="foto" data-cat="casa" tabindex="0" role="button" aria-label="Ver grande: Batería social en el escritorio"><img src="fotos/bateria-social-escritorio.jpg" alt="Batería social en el escritorio" width="405" height="900" loading="lazy"><figcaption>Batería social en el escritorio</figcaption></figure>
+          <figure class="foto" data-cat="casa" tabindex="0" role="button" aria-label="Ver grande: Cortantes para galletitas"><img src="fotos/cortantes-galletas.jpg" alt="Cortantes para galletitas" width="405" height="900" loading="lazy"><figcaption>Cortantes para galletitas</figcaption></figure>
+          <figure class="foto" data-cat="nombres" tabindex="0" role="button" aria-label="Ver grande: Llavero con nombre y mini pesas"><img src="fotos/llavero-pesas.jpg" alt="Llavero con nombre y mini pesas" width="405" height="900" loading="lazy"><figcaption>Llavero con nombre y mini pesas</figcaption></figure>
+          <figure class="foto" data-cat="juguetes" tabindex="0" role="button" aria-label="Ver grande: Calamar articulado"><img src="fotos/calamar.jpg" alt="Calamar articulado" width="405" height="900" loading="lazy"><figcaption>Calamar articulado</figcaption></figure>
+          <figure class="foto" data-cat="casa" tabindex="0" role="button" aria-label="Ver grande: Estrella para el árbol, recién impresa"><img src="fotos/estrella-impresora.jpg" alt="Estrella para el árbol, recién impresa" width="405" height="900" loading="lazy"><figcaption>Estrella para el árbol, recién impresa</figcaption></figure>
+          <figure class="foto" data-cat="casa" tabindex="0" role="button" aria-label="Ver grande: Los colores de filamento del taller"><img src="fotos/taller-filamentos.jpg" alt="Los colores de filamento del taller" width="734" height="900" loading="lazy"><figcaption>Los colores de filamento del taller</figcaption></figure>
+          <figure class="foto" data-cat="juguetes" tabindex="0" role="button" aria-label="Ver grande: Fidgets de todos los colores"><img src="fotos/fidgets-set.jpg" alt="Fidgets de todos los colores" width="405" height="900" loading="lazy"><figcaption>Fidgets de todos los colores</figcaption></figure>
+          <figure class="foto" data-cat="toppers" tabindex="0" role="button" aria-label="Ver grande: Topper de Stranger Things con nombre"><img src="fotos/topper-stranger.jpg" alt="Topper de Stranger Things con nombre" width="405" height="900" loading="lazy"><figcaption>Topper de Stranger Things con nombre</figcaption></figure>
+          <figure class="foto" data-cat="toppers" tabindex="0" role="button" aria-label="Ver grande: Topper de Harry Potter para el cumple"><img src="fotos/topper-harry.jpg" alt="Topper de Harry Potter para el cumple" width="405" height="900" loading="lazy"><figcaption>Topper de Harry Potter para el cumple</figcaption></figure>
+          <figure class="foto" data-cat="toppers" tabindex="0" role="button" aria-label="Ver grande: Topper con nombre en dorado"><img src="fotos/topper-moni.jpg" alt="Topper con nombre en dorado" width="900" height="405" loading="lazy"><figcaption>Topper con nombre en dorado</figcaption></figure>
+          <figure class="foto" data-cat="toppers" tabindex="0" role="button" aria-label="Ver grande: Topper de Stitch con número"><img src="fotos/topper-stitch.jpg" alt="Topper de Stitch con número" width="599" height="900" loading="lazy"><figcaption>Topper de Stitch con número</figcaption></figure>
+          <figure class="foto" data-cat="toppers" tabindex="0" role="button" aria-label="Ver grande: Topper estilo Jurassic Park con nombre"><img src="fotos/topper-jurassic.jpg" alt="Topper estilo Jurassic Park con nombre" width="599" height="900" loading="lazy"><figcaption>Topper estilo Jurassic Park con nombre</figcaption></figure>
+          <figure class="foto" data-cat="toppers" tabindex="0" role="button" aria-label="Ver grande: Topper de Marshmello con nombre y número"><img src="fotos/topper-marshmello.jpg" alt="Topper de Marshmello con nombre y número" width="900" height="865" loading="lazy"><figcaption>Topper de Marshmello con nombre y número</figcaption></figure>
+          <figure class="foto" data-cat="toppers" tabindex="0" role="button" aria-label="Ver grande: Topper de Among Us con nombre y número"><img src="fotos/topper-amongus.jpg" alt="Topper de Among Us con nombre y número" width="405" height="900" loading="lazy"><figcaption>Topper de Among Us con nombre y número</figcaption></figure>
+          <figure class="foto" data-cat="toppers" tabindex="0" role="button" aria-label="Ver grande: Topper de Pikachu con nombre y número"><img src="fotos/topper-pikachu.jpg" alt="Topper de Pikachu con nombre y número" width="405" height="900" loading="lazy"><figcaption>Topper de Pikachu con nombre y número</figcaption></figure>
+          <figure class="foto" data-cat="nombres" tabindex="0" role="button" aria-label="Ver grande: Llavero con nombre en tres colores"><img src="fotos/llavero-tizi.jpg" alt="Llavero con nombre en tres colores" width="900" height="754" loading="lazy"><figcaption>Llavero con nombre en tres colores</figcaption></figure>
+          <figure class="foto" data-cat="nombres" tabindex="0" role="button" aria-label="Ver grande: Llaveros con nombre para todo el grupo"><img src="fotos/llaveros-nombres.jpg" alt="Llaveros con nombre para todo el grupo" width="589" height="900" loading="lazy"><figcaption>Llaveros con nombre para todo el grupo</figcaption></figure>
+          <figure class="foto" data-cat="nombres" tabindex="0" role="button" aria-label="Ver grande: Llaveros nube con nombre, para souvenirs"><img src="fotos/llaveros-nubes.jpg" alt="Llaveros nube con nombre, para souvenirs" width="900" height="405" loading="lazy"><figcaption>Llaveros nube con nombre, para souvenirs</figcaption></figure>
+          <figure class="foto" data-cat="nombres" tabindex="0" role="button" aria-label="Ver grande: Llaveros con inicial y nombre"><img src="fotos/llaveros-milo.jpg" alt="Llaveros con inicial y nombre" width="900" height="405" loading="lazy"><figcaption>Llaveros con inicial y nombre</figcaption></figure>
+          <figure class="foto" data-cat="nombres" tabindex="0" role="button" aria-label="Ver grande: Souvenirs con nombre, en tanda"><img src="fotos/souvenirs-nombres.jpg" alt="Souvenirs con nombre, en tanda" width="405" height="900" loading="lazy"><figcaption>Souvenirs con nombre, en tanda</figcaption></figure>
+          <figure class="foto" data-cat="nombres" tabindex="0" role="button" aria-label="Ver grande: Llaveros para Poli Indumentaria"><img src="fotos/llaveros-poli.jpg" alt="Llaveros para Poli Indumentaria" width="405" height="900" loading="lazy"><figcaption>Llaveros para Poli Indumentaria</figcaption></figure>
+          <figure class="foto" data-cat="mascotas" tabindex="0" role="button" aria-label="Ver grande: Chapitas para mascotas con forma de hueso"><img src="fotos/chapitas-hueso.jpg" alt="Chapitas para mascotas con forma de hueso" width="540" height="900" loading="lazy"><figcaption>Chapitas para mascotas con forma de hueso</figcaption></figure>
+          <figure class="foto" data-cat="mascotas" tabindex="0" role="button" aria-label="Ver grande: Chapitas con nombre para tu mascota"><img src="fotos/chapitas-corazon.jpg" alt="Chapitas con nombre para tu mascota" width="405" height="900" loading="lazy"><figcaption>Chapitas con nombre para tu mascota</figcaption></figure>
       </div>
       <button class="mas-fotos" id="masFotos" type="button" hidden>Ver más fotos</button>
       <dialog class="visor" id="visor" aria-label="Foto ampliada">
@@ -799,18 +831,30 @@ html{overflow-x:hidden;overflow-x:clip}
 
 <script>
 (function(){
-  /* ---------- Galería: orden mezclado y visor para ver las fotos grandes ---------- */
-  const grid=document.getElementById('galeria-grid'),visor=document.getElementById('visor'),vImg=document.getElementById('visorImg'),vTxt=document.getElementById('visorTxt');
+  /* ---------- Galería: filtros, de a 8 fotos, orden mezclado y visor ---------- */
+  const grid=document.getElementById('galeria-grid'),visor=document.getElementById('visor'),vImg=document.getElementById('visorImg'),vTxt=document.getElementById('visorTxt'),mas=document.getElementById('masFotos');
   if(!grid)return;
+  const PASO=matchMedia('(max-width:560px)').matches?6:8;let filtro='todo',mostrar=PASO;
   const figs=[...grid.children];
   for(let i=figs.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[figs[i],figs[j]]=[figs[j],figs[i]]}
-  figs.forEach(f=>grid.appendChild(f));
-  const VISIBLES=12,mas=document.getElementById('masFotos');
-  if(mas&&figs.length>VISIBLES){
-    figs.slice(VISIBLES).forEach(f=>f.hidden=true);
-    mas.textContent='Ver más fotos ('+(figs.length-VISIBLES)+')';mas.hidden=false;
-    mas.addEventListener('click',()=>{figs.forEach(f=>f.hidden=false);mas.hidden=true});
+  // en "Todo", que las primeras fotos sean de temas distintos
+  const porCat={};figs.forEach(f=>(porCat[f.dataset.cat]=porCat[f.dataset.cat]||[]).push(f));
+  const mezcla=[];let quedan=true;while(quedan){quedan=false;Object.values(porCat).forEach(l=>{if(l.length){mezcla.push(l.shift());quedan=true}})}
+  mezcla.forEach(f=>grid.appendChild(f));
+  function pintar(){
+    const lista=mezcla.filter(f=>filtro==='todo'||f.dataset.cat===filtro);
+    mezcla.forEach(f=>f.hidden=true);
+    lista.slice(0,mostrar).forEach(f=>f.hidden=false);
+    const resto=lista.length-mostrar;
+    mas.hidden=resto<=0;if(resto>0)mas.textContent='Ver más fotos ('+resto+')';
   }
+  document.getElementById('chips').addEventListener('click',e=>{
+    const b=e.target.closest('.filtro');if(!b)return;
+    document.querySelectorAll('#chips .filtro').forEach(c=>c.setAttribute('aria-pressed',c===b?'true':'false'));
+    filtro=b.dataset.f;mostrar=PASO;pintar();
+  });
+  mas.addEventListener('click',()=>{mostrar+=PASO;pintar()});
+  pintar();
   function abrir(f){
     const img=f.querySelector('img');vImg.src=img.src;vImg.alt=img.alt;vTxt.textContent=f.querySelector('figcaption').textContent;
     if(visor.showModal)visor.showModal();else visor.setAttribute('open','');
