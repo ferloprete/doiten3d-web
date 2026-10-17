@@ -203,6 +203,30 @@ a.reel{text-decoration:none}
 .visor-x{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));width:44px;height:44px;border:0;border-radius:50%;background:#fff;color:#001f3f;font-size:26px;line-height:1;cursor:pointer}
 .visor-x:focus-visible{outline:3px solid var(--naranja);outline-offset:2px}
 
+/* reels a pantalla completa */
+[hidden]{display:none!important}
+.rv{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:calc(16px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.rv-bg{position:absolute;inset:0;background:radial-gradient(circle at 50% 40%,rgba(30,187,215,.35),transparent 60%),rgba(0,18,36,.95);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.rv-stage{position:relative;display:flex;align-items:center;gap:18px}
+.rv-card{position:relative;height:min(84vh,calc((100vw - 32px)*16/9));aspect-ratio:9/16;max-width:calc(100vw - 32px);border-radius:22px;overflow:hidden;background:#000;box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 0 3px rgba(255,255,255,.08);touch-action:pan-x pan-y}
+.rv-card video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.rv-nozzle{position:absolute;left:-4%;right:-4%;top:100%;height:4px;background:#e68b3a;box-shadow:0 0 18px 4px rgba(230,139,58,.8);opacity:0;pointer-events:none}
+.rv-prog{position:absolute;left:12px;right:12px;top:12px;height:3px;border-radius:3px;background:rgba(255,255,255,.3);overflow:hidden}
+.rv-prog i{display:block;height:100%;width:0;background:#fff}
+.rv-info{position:absolute;inset:auto 0 0 0;padding:60px 18px 18px;background:linear-gradient(transparent,rgba(0,15,30,.85));color:#fff}
+.rv-info h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:clamp(24px,3.4vh,32px);line-height:1.05}
+.rv-info p{margin:6px 0 0;font-size:15px;line-height:1.35;opacity:.92}
+.rv-info .rv-count{margin:0 0 4px;font-family:var(--f-mono);font-size:12px;opacity:.75}
+.rv-cta{margin-top:14px;font-size:20px;padding:10px 22px 12px}
+.rv-nav{width:52px;height:52px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:34px;line-height:1;cursor:pointer;transition:background .2s,transform .15s}
+.rv-nav:hover{background:rgba(255,255,255,.26);transform:scale(1.08)}
+.rv-nav:focus-visible,.rv-x:focus-visible{outline:3px solid #e68b3a;outline-offset:3px}
+.rv-prev{order:-1}
+.rv-x{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:max(14px,env(safe-area-inset-right,0px));width:46px;height:46px;border:0;border-radius:50%;background:#fff;color:#001f3f;font-size:28px;line-height:1;cursor:pointer;z-index:2}
+.rv-hint{position:absolute;bottom:calc(10px + env(safe-area-inset-bottom,0px));left:0;right:0;margin:0;text-align:center;color:rgba(255,255,255,.6);font-size:13px;display:none}
+.rv-chip{position:fixed;width:14px;height:12px;clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);pointer-events:none;z-index:3}
+@media (max-width:640px){.rv-nav{display:none}.rv-hint{display:block}.rv-card{height:min(80vh,calc((100vw - 32px)*16/9))}}
+
 /* pasos */
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;list-style:none;padding:0;margin:0;counter-reset:s}
 .steps li{counter-increment:s;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:22px;transition:transform .25s cubic-bezier(.3,1.8,.5,1)}
@@ -733,6 +757,99 @@ footer a{color:inherit}
   grid.addEventListener('keydown',e=>{const f=e.target.closest('.foto');if(f&&(e.key==='Enter'||e.key===' ')){e.preventDefault();abrir(f)}});
   document.getElementById('visorX').addEventListener('click',cerrar);
   visor.addEventListener('click',e=>{if(e.target===visor||e.target===vImg)cerrar()});
+})();
+</script>
+
+<div class="rv" id="rv" hidden>
+  <div class="rv-bg" id="rvBg"></div>
+  <div class="rv-stage" id="rvStage">
+    <div class="rv-card" id="rvCard">
+      <video id="rvVideo" muted loop playsinline></video>
+      <div class="rv-nozzle" id="rvNozzle" aria-hidden="true"></div>
+      <div class="rv-prog"><i id="rvProg"></i></div>
+      <div class="rv-info">
+        <p class="rv-count" id="rvCount"></p>
+        <h3 id="rvTitle"></h3>
+        <p id="rvDesc"></p>
+        <a class="cta rv-cta" id="rvCta" href="https://wa.me/541131825636" target="_blank" rel="noopener">¡Lo quiero!</a>
+      </div>
+    </div>
+    <button class="rv-nav rv-prev" id="rvPrev" type="button" aria-label="Video anterior">‹</button>
+    <button class="rv-nav rv-next" id="rvNext" type="button" aria-label="Video siguiente">›</button>
+  </div>
+  <button class="rv-x" id="rvX" type="button" aria-label="Cerrar">×</button>
+  <p class="rv-hint" id="rvHint">Deslizá para ver otro</p>
+</div>
+<script>
+(function(){
+  /* ---------- Reels a pantalla completa: la tarjeta salta y se "imprime" capa por capa ---------- */
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rv=document.getElementById('rv'),card=document.getElementById('rvCard'),vid=document.getElementById('rvVideo'),noz=document.getElementById('rvNozzle'),
+        prog=document.getElementById('rvProg'),tit=document.getElementById('rvTitle'),desc=document.getElementById('rvDesc'),cta=document.getElementById('rvCta'),
+        cnt=document.getElementById('rvCount'),reels=document.getElementById('reels'),bg=document.getElementById('rvBg');
+  if(!rv||!reels)return;
+  let lista=[],idx=0,abierto=false,origen=null;
+  const datos=a=>({src:a.querySelector('video').getAttribute('src'),poster:a.querySelector('video').getAttribute('poster'),t:a.querySelector('h3').textContent,d:a.querySelector('.meta p').textContent,el:a});
+  function cargar(i,dir){
+    idx=(i+lista.length)%lista.length;const r=lista[idx];
+    vid.src=r.src;vid.poster=r.poster;tit.textContent=r.t;desc.textContent=r.d;cnt.textContent=(idx+1)+' / '+lista.length;
+    cta.href='https://wa.me/541131825636?text='+encodeURIComponent('Hola DO-IT-3D! Vi el video de "'+r.t+'" en la web y quiero algo así');
+    const pr=vid.play();if(pr)pr.catch(()=>{});
+    if(dir&&!reduce)card.animate([{transform:`translateY(${dir*60}px) scale(.94)`,opacity:0},{transform:'none',opacity:1}],{duration:380,easing:'cubic-bezier(.2,1.3,.4,1)'});
+    imprimir(dir?420:900);
+  }
+  function imprimir(ms){
+    if(reduce)return;
+    // capas: el video aparece de abajo hacia arriba en escalones, con la boquilla marcando la capa
+    card.animate([{clipPath:'inset(100% 0 0 0 round 22px)'},{clipPath:'inset(0 0 0 0 round 22px)'}],{duration:ms,easing:'steps(28,end)'});
+    noz.animate([{top:'100%',opacity:1},{top:'0%',opacity:1},{top:'0%',opacity:0}],{duration:ms+200,easing:'linear'});
+  }
+  function confeti(x,y){
+    if(reduce)return;
+    const cols=['#e68b3a','#1ebbd7','#f2b8d2','#6bbf59','#f6c343','#ffffff'];
+    for(let i=0;i<26;i++){
+      const s=document.createElement('span');s.className='rv-chip';s.style.background=cols[i%cols.length];s.style.left=x+'px';s.style.top=y+'px';rv.appendChild(s);
+      const a=Math.random()*Math.PI*2,d=120+Math.random()*220;
+      s.animate([{transform:'translate(-50%,-50%) scale(1.2)',opacity:1},{transform:`translate(calc(-50% + ${Math.cos(a)*d}px),calc(-50% + ${Math.sin(a)*d+80}px)) rotate(${Math.random()*540}deg) scale(.3)`,opacity:0}],
+        {duration:900+Math.random()*600,easing:'cubic-bezier(.15,.7,.3,1)'}).onfinish=()=>s.remove();
+    }
+  }
+  function abrir(a){
+    lista=[...reels.querySelectorAll('article.reel.vid')].map(datos);
+    const i=lista.findIndex(r=>r.el===a);origen=a;
+    rv.hidden=false;abierto=true;document.documentElement.style.overflow='hidden';
+    reels.querySelectorAll('video').forEach(v=>v.pause());
+    cargar(i<0?0:i,0);
+    if(!reduce){
+      // la tarjeta vuela desde su lugar en la página hasta el centro
+      const a0=a.getBoundingClientRect(),b=card.getBoundingClientRect();
+      const sx=a0.width/b.width,dx=a0.left+a0.width/2-(b.left+b.width/2),dy=a0.top+a0.height/2-(b.top+b.height/2);
+      card.animate([{transform:`translate(${dx}px,${dy}px) scale(${sx}) rotate(-4deg)`},{transform:'translate(0,-14px) scale(1.04) rotate(1deg)',offset:.7},{transform:'none'}],{duration:620,easing:'cubic-bezier(.2,.9,.3,1)'});
+      bg.animate([{opacity:0},{opacity:1}],{duration:300});
+      setTimeout(()=>{const c=card.getBoundingClientRect();confeti(c.left+c.width/2,c.top+c.height*.35)},380);
+    }
+    document.getElementById('rvX').focus({preventScroll:true});
+  }
+  function cerrar(){
+    if(!abierto)return;abierto=false;vid.pause();
+    const fin=()=>{rv.hidden=true;vid.removeAttribute('src');vid.load();document.documentElement.style.overflow='';origen?.focus({preventScroll:true})};
+    if(reduce)return fin();
+    card.animate([{transform:'none',opacity:1},{transform:'scale(.85) translateY(40px)',opacity:0}],{duration:240,easing:'ease-in'});
+    bg.animate([{opacity:1},{opacity:0}],{duration:260}).onfinish=fin;
+  }
+  vid.addEventListener('timeupdate',()=>{if(vid.duration)prog.style.width=(vid.currentTime/vid.duration*100)+'%'});
+  reels.addEventListener('click',e=>{const a=e.target.closest('article.reel.vid');if(a)setTimeout(()=>abrir(a),reduce?0:180)});
+  reels.addEventListener('keydown',e=>{const a=e.target.closest('article.reel.vid');if(a&&(e.key==='Enter'||e.key===' '))setTimeout(()=>abrir(a),reduce?0:180)});
+  document.getElementById('rvX').addEventListener('click',cerrar);
+  bg.addEventListener('click',cerrar);
+  document.getElementById('rvPrev').addEventListener('click',()=>cargar(idx-1,-1));
+  document.getElementById('rvNext').addEventListener('click',()=>cargar(idx+1,1));
+  addEventListener('keydown',e=>{if(!abierto)return;if(e.key==='Escape')cerrar();if(e.key==='ArrowRight'||e.key==='ArrowDown')cargar(idx+1,1);if(e.key==='ArrowLeft'||e.key==='ArrowUp')cargar(idx-1,-1)});
+  // deslizar en el celu: arriba/izquierda = siguiente
+  let t0=null;
+  card.addEventListener('touchstart',e=>{t0=[e.touches[0].clientX,e.touches[0].clientY]},{passive:true});
+  card.addEventListener('touchend',e=>{if(!t0)return;const dx=e.changedTouches[0].clientX-t0[0],dy=e.changedTouches[0].clientY-t0[1];t0=null;
+    if(Math.max(Math.abs(dx),Math.abs(dy))<40)return;const sig=Math.abs(dy)>Math.abs(dx)?dy<0:dx<0;cargar(idx+(sig?1:-1),sig?1:-1)},{passive:true});
 })();
 </script>
 
