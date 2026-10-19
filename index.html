@@ -1126,12 +1126,12 @@ html{overflow-x:hidden;overflow-x:clip}
   };
   const COLORES=[['#e63946','rojo'],['#f4a261','naranja'],['#ffd60a','amarillo'],['#52b788','verde'],['#4cc9f0','celeste'],['#3a86ff','azul'],['#9b5de5','violeta'],['#ff70a6','rosa'],['#8d5524','marrón'],['#2b2d42','negro'],['#ffffff','goma']];
   const lienzo=document.getElementById('lienzo'),fib=document.getElementById('fibrones'),msg=document.getElementById('pintaMsg'),cta=document.getElementById('pintaCta');
-  let color=COLORES[Math.floor(Math.random()*8)][0],figura=null,festejado=false;
+  let bolsa=[];let color=COLORES[Math.floor(Math.random()*8)][0],figura=null,festejado=false;
   COLORES.forEach(([c,n],i)=>{const b=document.createElement('button');b.type='button';b.className='fibron'+(n==='goma'?' goma':'');b.style.setProperty('--c',c);
     b.setAttribute('role','radio');b.setAttribute('aria-label',n==='goma'?'Goma (borrar una parte)':'Fibrón '+n);b.setAttribute('aria-checked',c===color?'true':'false');b.dataset.c=c;fib.appendChild(b)});
   fib.addEventListener('click',e=>{const b=e.target.closest('.fibron');if(!b)return;color=b.dataset.c;fib.querySelectorAll('.fibron').forEach(x=>x.setAttribute('aria-checked',x===b?'true':'false'))});
   function cargar(){
-    const nombres=Object.keys(FIG);let n;do{n=nombres[Math.floor(Math.random()*nombres.length)]}while(n===figura&&nombres.length>1);figura=n;
+    if(!bolsa.length){bolsa=Object.keys(FIG).filter(x=>x!==figura).sort(()=>Math.random()-.5);if(figura)bolsa.push(figura)}const n=bolsa.shift();figura=n;
     lienzo.innerHTML=FIG[n];lienzo.setAttribute('aria-label','Figura para pintar: '+n);festejado=false;cta.hidden=true;
     lienzo.querySelectorAll('.z').forEach(z=>{z.setAttribute('tabindex','0');z.setAttribute('role','button');z.setAttribute('aria-label','Pintar esta parte')});
     msg.textContent='Te tocó '+n+'. Elegí un color y tocá cada parte.';
