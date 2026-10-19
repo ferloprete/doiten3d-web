@@ -103,7 +103,7 @@ section{padding-block:56px}
 .reel h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:25px;line-height:1.05}
 .reel p{margin:6px 0 0;font-size:15px;line-height:1.3;opacity:.92}
 .reel .slot{position:absolute;top:12px;left:12px;font-family:var(--f-mono);font-size:11px;background:rgba(0,20,40,.4);padding:4px 8px;border-radius:99px}
-.reel video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:var(--surface)}
+.reel video,.reel img.cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:var(--surface)}
 .reel.vid .meta{padding-top:48px}
 .ig-reel .meta{padding:28px 14px 12px}
 .ig-reel h3{font-size:20px}
@@ -412,25 +412,33 @@ html{overflow-x:hidden;overflow-x:clip}
         <p>Videos cortos de nuestros trabajos. Deslizá para ver más.</p>
       </div>
       <div class="reels" id="reels">
-        <article class="reel vid" tabindex="0" data-historia="letras.mp4,topper-stranger,topper-harry,topper-stitch,topper-pikachu,topper-marshmello,topper-jurassic,topper-amongus,topper-moni,torta-21,topper-flores-21,toppers-flores,topper-costurera,estrella-impresora">
+        <article class="reel vid" tabindex="0" data-historia="torta-21,topper-flores-21,toppers-flores,letras.mp4,topper-moni,topper-costurera,topper-stranger,topper-harry,topper-stitch,topper-pikachu,topper-marshmello,topper-jurassic,topper-amongus">
           <video src="videos/topper-21.mp4" poster="videos/topper-21.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
-          <div class="meta"><h3>Toppers de cumple</h3><p>Números, flores y nombres para coronar la torta.</p></div>
+          <div class="meta"><h3>Toppers de cumple</h3><p>Números, flores, nombres y personajes para coronar la torta.</p></div>
         </article>
-        <article class="reel vid" tabindex="0" data-historia="pitufo.mp4,godzilla,snoopy,copa,carnero,dummy-blanco">
-          <video src="videos/personajes.mp4" poster="videos/personajes.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
-          <div class="meta"><h3>Personajes y personalizados</h3><p>Stitch, Groot, tazas de tu club y nombres con bandera.</p></div>
+        <article class="reel vid" tabindex="0" data-historia="bolas-navidad,adornos-navidad,estrella-impresora">
+          <img class="cover" src="fotos/adornos-navidad.jpg" alt="" aria-hidden="true" loading="lazy">
+          <div class="meta"><h3>Navidad</h3><p>Bolas con nombre, adornos y la estrella para el árbol.</p></div>
+        </article>
+        <article class="reel vid" tabindex="0" data-historia="llavero-nombre,llavero-tizi,llaveros-nombres,llaveros-nubes,llaveros-milo,souvenirs-nombres,llavero-pesas,llaveros-poli,portacel-epsilon,chapitas-hueso,chapitas-corazon">
+          <video src="videos/llaveros.mp4" poster="videos/llaveros.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
+          <div class="meta"><h3>Llaveros y nombres</h3><p>Llaveros, souvenirs, chapitas y todo lo que lleva tu nombre.</p></div>
+        </article>
+        <article class="reel vid" tabindex="0" data-historia="lampara-luna,servilletero-montanas,maceta-molde,molde-maceta,senaladores,clips-flores.mp4,sujetapaginas-nombre,cascos">
+          <img class="cover" src="fotos/lampara-luna.jpg" alt="" aria-hidden="true" loading="lazy">
+          <div class="meta"><h3>Casa y regalos</h3><p>Lámparas, macetas, señaladores y detalles para regalar.</p></div>
         </article>
         <article class="reel vid" tabindex="0" data-historia="trex.mp4,dinos.mp4,fidgets-juego.mp4,fidgets-set,calamar,imprimiendo.mp4,tiburon-avion,robot-dueno,dummy13,dummy-amarillo,dummy-blanco">
           <video src="videos/fidgets.mp4" poster="videos/fidgets.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
           <div class="meta"><h3>Juguetes y fidgets</h3><p>Cubos, espirales, dinos y bichos articulados.</p></div>
         </article>
+        <article class="reel vid" tabindex="0" data-historia="pitufo.mp4,godzilla,snoopy,copa,dummy-blanco">
+          <video src="videos/personajes.mp4" poster="videos/personajes.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
+          <div class="meta"><h3>Personajes</h3><p>Stitch, Groot, Godzilla, Snoopy y el que quieras.</p></div>
+        </article>
         <article class="reel vid" tabindex="0" data-historia="bateria-social,bateria-social-escritorio">
           <video src="videos/juegos.mp4" poster="videos/juegos.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
-          <div class="meta"><h3>Juegos didácticos</h3><p>Números, ta-te-ti con nombre y más, para aprender jugando.</p></div>
-        </article>
-        <article class="reel vid" tabindex="0" data-historia="chapitas-hueso,chapitas-corazon,llavero-tizi,llaveros-nubes,llaveros-milo,llaveros-poli,llavero-nombre,llavero-pesas,clips-flores.mp4,senaladores,sujetapaginas-nombre,lampara-luna,servilletero-montanas,bolas-navidad,adornos-navidad,cascos,maceta-molde,molde-maceta">
-          <video src="videos/llaveros.mp4" poster="videos/llaveros.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
-          <div class="meta"><h3>Llaveros y cositas</h3><p>Gusanitos articulados, corazones, enhebrados. Para regalar o regalarte.</p></div>
+          <div class="meta"><h3>Juegos didácticos</h3><p>Para aprender jugando y contar cómo te sentís.</p></div>
         </article>
         <a class="reel" href="https://wa.me/541131825636?text=Hola%20DO-IT-3D!%20Quiero%20imprimir%20algo" target="_blank" rel="noopener" style="--c1:#e68b3a;--c2:#1ebbd7">
           <div class="layers"></div>
@@ -455,6 +463,7 @@ html{overflow-x:hidden;overflow-x:clip}
         <button type="button" class="filtro" data-f="nombres" aria-pressed="false">Nombres y llaveros</button>
         <button type="button" class="filtro" data-f="juguetes" aria-pressed="false">Juguetes y personajes</button>
         <button type="button" class="filtro" data-f="casa" aria-pressed="false">Casa y regalos</button>
+        <button type="button" class="filtro" data-f="navidad" aria-pressed="false">Navidad</button>
         <button type="button" class="filtro" data-f="mascotas" aria-pressed="false">Mascotas</button>
       </div>
       <div class="galeria" id="galeria-grid">
@@ -463,8 +472,8 @@ html{overflow-x:hidden;overflow-x:clip}
           <figure class="foto" data-cat="juguetes" tabindex="0" role="button" aria-label="Ver grande: Tiburón articulado y avioncito"><img src="fotos/tiburon-avion.jpg" alt="Tiburón articulado y avioncito" width="405" height="900" loading="lazy"><figcaption>Tiburón articulado y avioncito</figcaption></figure>
           <figure class="foto" data-cat="casa" tabindex="0" role="button" aria-label="Ver grande: Servilletero con montañas para Sukha, almacén serrano"><img src="fotos/servilletero-montanas.jpg" alt="Servilletero con montañas para Sukha, almacén serrano" width="405" height="900" loading="lazy"><figcaption>Servilletero con montañas para Sukha, almacén serrano</figcaption></figure>
           <figure class="foto" data-cat="casa" tabindex="0" role="button" aria-label="Ver grande: Cascos en miniatura, recién salidos de la cama"><img src="fotos/cascos.jpg" alt="Cascos en miniatura, recién salidos de la cama" width="729" height="900" loading="lazy"><figcaption>Cascos en miniatura, recién salidos de la cama</figcaption></figure>
-          <figure class="foto" data-cat="nombres" tabindex="0" role="button" aria-label="Ver grande: Bolas navideñas con nombre"><img src="fotos/bolas-navidad.jpg" alt="Bolas navideñas con nombre" width="405" height="900" loading="lazy"><figcaption>Bolas navideñas con nombre</figcaption></figure>
-          <figure class="foto" data-cat="nombres" tabindex="0" role="button" aria-label="Ver grande: Adornos navideños personalizados"><img src="fotos/adornos-navidad.jpg" alt="Adornos navideños personalizados" width="767" height="900" loading="lazy"><figcaption>Adornos navideños personalizados</figcaption></figure>
+          <figure class="foto" data-cat="navidad" tabindex="0" role="button" aria-label="Ver grande: Bolas navideñas con nombre"><img src="fotos/bolas-navidad.jpg" alt="Bolas navideñas con nombre" width="405" height="900" loading="lazy"><figcaption>Bolas navideñas con nombre</figcaption></figure>
+          <figure class="foto" data-cat="navidad" tabindex="0" role="button" aria-label="Ver grande: Adornos navideños personalizados"><img src="fotos/adornos-navidad.jpg" alt="Adornos navideños personalizados" width="767" height="900" loading="lazy"><figcaption>Adornos navideños personalizados</figcaption></figure>
           <figure class="foto" data-cat="casa" tabindex="0" role="button" aria-label="Ver grande: Molde impreso y la maceta de cemento que sale de él"><img src="fotos/maceta-molde.jpg" alt="Molde impreso y la maceta de cemento que sale de él" width="808" height="900" loading="lazy"><figcaption>Molde impreso y la maceta de cemento que sale de él</figcaption></figure>
           <figure class="foto" data-cat="casa" tabindex="0" role="button" aria-label="Ver grande: Molde para macetas, en partes"><img src="fotos/molde-maceta.jpg" alt="Molde para macetas, en partes" width="405" height="900" loading="lazy"><figcaption>Molde para macetas, en partes</figcaption></figure>
           <figure class="foto" data-cat="toppers" tabindex="0" role="button" aria-label="Ver grande: Topper de torta con nombre y máquina de coser"><img src="fotos/topper-costurera.jpg" alt="Topper de torta con nombre y máquina de coser" width="587" height="900" loading="lazy"><figcaption>Topper de torta con nombre y máquina de coser</figcaption></figure>
@@ -488,7 +497,7 @@ html{overflow-x:hidden;overflow-x:clip}
           <figure class="foto" data-cat="casa" tabindex="0" role="button" aria-label="Ver grande: Piezas con forma de gato, arco y hexágono"><img src="fotos/cortantes-galletas.jpg" alt="Piezas con forma de gato, arco y hexágono" width="405" height="900" loading="lazy"><figcaption>Piezas con forma de gato, arco y hexágono</figcaption></figure>
           <figure class="foto" data-cat="nombres" tabindex="0" role="button" aria-label="Ver grande: Llavero con nombre y mini pesas"><img src="fotos/llavero-pesas.jpg" alt="Llavero con nombre y mini pesas" width="405" height="900" loading="lazy"><figcaption>Llavero con nombre y mini pesas</figcaption></figure>
           <figure class="foto" data-cat="juguetes" tabindex="0" role="button" aria-label="Ver grande: Calamar articulado"><img src="fotos/calamar.jpg" alt="Calamar articulado" width="405" height="900" loading="lazy"><figcaption>Calamar articulado</figcaption></figure>
-          <figure class="foto" data-cat="casa" tabindex="0" role="button" aria-label="Ver grande: Estrella para el árbol, recién impresa"><img src="fotos/estrella-impresora.jpg" alt="Estrella para el árbol, recién impresa" width="405" height="900" loading="lazy"><figcaption>Estrella para el árbol, recién impresa</figcaption></figure>
+          <figure class="foto" data-cat="navidad" tabindex="0" role="button" aria-label="Ver grande: Estrella para el árbol, recién impresa"><img src="fotos/estrella-impresora.jpg" alt="Estrella para el árbol, recién impresa" width="405" height="900" loading="lazy"><figcaption>Estrella para el árbol, recién impresa</figcaption></figure>
           <figure class="foto" data-cat="casa" tabindex="0" role="button" aria-label="Ver grande: Los colores de filamento del taller"><img src="fotos/taller-filamentos.jpg" alt="Los colores de filamento del taller" width="734" height="900" loading="lazy"><figcaption>Los colores de filamento del taller</figcaption></figure>
           <figure class="foto" data-cat="juguetes" tabindex="0" role="button" aria-label="Ver grande: Fidgets de todos los colores"><img src="fotos/fidgets-set.jpg" alt="Fidgets de todos los colores" width="405" height="900" loading="lazy"><figcaption>Fidgets de todos los colores</figcaption></figure>
           <figure class="foto" data-cat="toppers" tabindex="0" role="button" aria-label="Ver grande: Topper de Stranger Things con nombre"><img src="fotos/topper-stranger.jpg" alt="Topper de Stranger Things con nombre" width="405" height="900" loading="lazy"><figcaption>Topper de Stranger Things con nombre</figcaption></figure>
