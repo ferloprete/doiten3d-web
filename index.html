@@ -253,6 +253,28 @@ a.reel{text-decoration:none}
 .amiga .nm{font-size:13.5px;font-weight:600}
 .amiga .ds{display:none}
 
+/* probalo: pestañas y figura para pintar */
+.proba-tabs{display:inline-flex;gap:4px;padding:4px;margin:4px 0 0;background:var(--surface);border:1px solid var(--line);border-radius:99px}
+.proba-tabs button{font:inherit;font-size:15px;font-weight:600;color:var(--muted);background:none;border:0;border-radius:99px;padding:6px 16px;cursor:pointer}
+.proba-tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+.proba-tabs button:focus-visible{outline:3px solid var(--naranja);outline-offset:2px}
+.pintabox{gap:12px;padding:20px 16px 22px}
+.lienzo{width:min(250px,70vw);height:auto;overflow:visible;filter:drop-shadow(0 3px 0 rgba(0,0,0,.12))}
+.lienzo .z{fill:#f6f6f3;stroke:#cfd3d6;stroke-width:3;stroke-linejoin:round;cursor:pointer;transform-box:fill-box;transform-origin:center;transition:fill .2s}
+.lienzo .z:hover{stroke:var(--naranja)}
+.lienzo .z:focus-visible{outline:none;stroke:var(--naranja);stroke-width:4}
+.lienzo .l{fill:none;stroke:#cfd3d6;stroke-width:3;stroke-linecap:round;pointer-events:none}
+.fibrones{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;max-width:330px}
+.fibron{width:30px;height:30px;border-radius:50%;background:var(--c);border:3px solid var(--surface);outline:2px solid var(--line);cursor:pointer;transition:transform .15s}
+.fibron.goma{background:repeating-linear-gradient(45deg,#fff 0 4px,#e5e7ea 4px 8px)}
+.fibron[aria-checked="true"]{outline:3px solid var(--ink);transform:scale(1.15)}
+.fibron:focus-visible{outline:3px solid var(--naranja)}
+.pinta-acciones{display:flex;gap:8px}
+.pinta-btn{font:inherit;font-size:15px;font-weight:600;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:99px;padding:5px 14px;cursor:pointer}
+.pinta-btn:hover{border-color:var(--naranja)}
+.pinta-btn:focus-visible{outline:3px solid var(--naranja);outline-offset:2px}
+.pinta-cta{font-size:19px;padding:9px 20px 11px}
+
 /* pasos */
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;list-style:none;padding:0;margin:0;counter-reset:s}
 .steps li{counter-increment:s;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:22px;transition:transform .25s cubic-bezier(.3,1.8,.5,1)}
@@ -554,8 +576,12 @@ html{overflow-x:hidden;overflow-x:clip}
       <div class="play">
         <div>
           <p class="eyebrow">Probalo acá</p>
-          <h2>Tirá el dado</h2>
-          <p>Así se siente uno de nuestros dados didácticos: liviano, con las capas que se ven y se tocan. Cada tiro sale distinto, y si sale un 6 hay festejo. En la mano es todavía mejor.</p>
+          <h2 id="probaTit">Tirá el dado</h2>
+          <p id="probaTxt">Así se siente uno de nuestros dados didácticos: liviano, con las capas que se ven y se tocan. Cada tiro sale distinto, y si sale un 6 hay festejo. En la mano es todavía mejor.</p>
+          <div class="proba-tabs" id="probaTabs" role="tablist" aria-label="Elegí qué probar">
+            <button type="button" role="tab" data-m="dado" aria-selected="true">🎲 Tirá el dado</button>
+            <button type="button" role="tab" data-m="pintar" aria-selected="false">🖍️ Pintá una figura</button>
+          </div>
         </div>
         <div class="dicebox">
           <div class="diewrap" id="diewrap">
@@ -570,6 +596,16 @@ html{overflow-x:hidden;overflow-x:clip}
           </div>
           <button class="roll" id="roll">¡Tirar!</button>
           <div class="result" id="result" aria-live="polite">Salió 1</div>
+        </div>
+        <div class="pintabox dicebox" id="pintabox" hidden>
+          <svg class="lienzo" id="lienzo" viewBox="0 0 200 200" role="img" aria-label="Figura para pintar"></svg>
+          <div class="fibrones" id="fibrones" role="radiogroup" aria-label="Elegí un fibrón"></div>
+          <div class="pinta-acciones">
+            <button type="button" class="pinta-btn" id="otraFigura">Otra figura ↻</button>
+            <button type="button" class="pinta-btn" id="borrarFigura">Borrar</button>
+          </div>
+          <p class="result" id="pintaMsg" aria-live="polite">Elegí un color y tocá cada parte.</p>
+          <a class="cta pinta-cta" id="pintaCta" href="https://wa.me/541131825636" target="_blank" rel="noopener" hidden>¡La quiero para pintar!</a>
         </div>
       </div>
     </section>
@@ -1048,6 +1084,79 @@ html{overflow-x:hidden;overflow-x:clip}
   card.addEventListener('touchstart',e=>{t0=[e.touches[0].clientX,e.touches[0].clientY]},{passive:true});
   card.addEventListener('touchend',e=>{if(!t0)return;const dx=e.changedTouches[0].clientX-t0[0],dy=e.changedTouches[0].clientY-t0[1];t0=null;
     if(Math.abs(dy)>50&&Math.abs(dy)>Math.abs(dx)){dy<0?tema(t+1,1):tema(t-1,-1)}},{passive:true});
+})();
+</script>
+
+<script>
+(function(){
+  /* ---------- Probalo: pestañas Dado / Pintá una figura ---------- */
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const tabs=document.getElementById('probaTabs'),dice=document.querySelector('#probalo .dicebox:not(.pintabox)'),pinta=document.getElementById('pintabox'),
+        tit=document.getElementById('probaTit'),txt=document.getElementById('probaTxt');
+  if(!tabs||!pinta)return;
+  const TEXTOS={
+    dado:['Tirá el dado','Así se siente uno de nuestros dados didácticos: liviano, con las capas que se ven y se tocan. Cada tiro sale distinto, y si sale un 6 hay festejo. En la mano es todavía mejor.'],
+    pintar:['Pintá una figura','Así son nuestras figuras para pintar: con relieve, para no salirse de la línea. Elegí un fibrón y tocá cada parte. En casa, con fibrones de verdad, es todavía mejor.']
+  };
+  function modo(m){
+    tabs.querySelectorAll('button').forEach(b=>b.setAttribute('aria-selected',b.dataset.m===m?'true':'false'));
+    dice.hidden=m!=='dado';pinta.hidden=m!=='pintar';tit.textContent=TEXTOS[m][0];txt.textContent=TEXTOS[m][1];
+  }
+  tabs.addEventListener('click',e=>{const b=e.target.closest('button');if(b)modo(b.dataset.m)});
+
+  /* ---------- Figuras con relieve para pintar tocando cada parte ---------- */
+  const FIG={
+    'el osito':`<circle class="z" cx="52" cy="52" r="26"/><circle class="z" cx="148" cy="52" r="26"/><circle class="z" cx="52" cy="52" r="13"/><circle class="z" cx="148" cy="52" r="13"/>
+      <circle class="z" cx="100" cy="110" r="72"/><circle class="z" cx="58" cy="132" r="11"/><circle class="z" cx="142" cy="132" r="11"/>
+      <ellipse class="z" cx="100" cy="140" rx="34" ry="26"/><ellipse class="z" cx="100" cy="128" rx="13" ry="9"/><circle class="z" cx="72" cy="100" r="9"/><circle class="z" cx="128" cy="100" r="9"/>
+      <path class="l" d="M100 137 v10 M88 152 q12 8 24 0"/>`,
+    'el hipopótamo':`<ellipse class="z" cx="56" cy="42" rx="16" ry="20"/><ellipse class="z" cx="144" cy="42" rx="16" ry="20"/><ellipse class="z" cx="56" cy="44" rx="8" ry="11"/><ellipse class="z" cx="144" cy="44" rx="8" ry="11"/>
+      <ellipse class="z" cx="100" cy="88" rx="64" ry="56"/><ellipse class="z" cx="100" cy="142" rx="80" ry="46"/>
+      <ellipse class="z" cx="76" cy="132" rx="8" ry="11"/><ellipse class="z" cx="124" cy="132" rx="8" ry="11"/><circle class="z" cx="76" cy="74" r="10"/><circle class="z" cx="124" cy="74" r="10"/>
+      <ellipse class="z" cx="100" cy="34" rx="10" ry="7"/><path class="l" d="M74 162 q26 14 52 0"/>`,
+    'el corazón':`<path class="z" d="M100 182 C40 136 8 100 28 62 C42 34 84 32 100 64 C116 32 158 34 172 62 C192 100 160 136 100 182Z"/>
+      <path class="z" d="M100 160 C58 126 36 102 48 74 C58 54 86 54 100 80 C114 54 142 54 152 74 C164 102 142 126 100 160Z"/>
+      <polygon class="z" points="78,82 83,95 97,95 86,103 90,117 78,108 66,117 70,103 59,95 73,95"/>
+      <polygon class="z" points="124,98 127,106 136,106 129,111 131,120 124,115 117,120 119,111 112,106 121,106"/>
+      <circle class="z" cx="96" cy="130" r="6"/><circle class="z" cx="116" cy="138" r="5"/><circle class="z" cx="80" cy="122" r="5"/>`,
+    'el pez':`<polygon class="z" points="150,100 192,64 186,100 192,136"/><ellipse class="z" cx="96" cy="100" rx="66" ry="50"/>
+      <path class="z" d="M70 54 Q96 22 126 56Z"/><path class="z" d="M78 146 Q96 172 118 146Z"/>
+      <path class="z" d="M84 54 Q70 100 84 146 L100 148 Q86 100 100 52Z"/><path class="z" d="M118 58 Q104 100 118 142 L132 132 Q120 100 132 68Z"/>
+      <circle class="z" cx="54" cy="88" r="11"/><circle class="z" cx="56" cy="86" r="4"/><path class="l" d="M38 112 q8 6 16 0"/>`
+  };
+  const COLORES=[['#e63946','rojo'],['#f4a261','naranja'],['#ffd60a','amarillo'],['#52b788','verde'],['#4cc9f0','celeste'],['#3a86ff','azul'],['#9b5de5','violeta'],['#ff70a6','rosa'],['#8d5524','marrón'],['#2b2d42','negro'],['#ffffff','goma']];
+  const lienzo=document.getElementById('lienzo'),fib=document.getElementById('fibrones'),msg=document.getElementById('pintaMsg'),cta=document.getElementById('pintaCta');
+  let color=COLORES[Math.floor(Math.random()*8)][0],figura=null,festejado=false;
+  COLORES.forEach(([c,n],i)=>{const b=document.createElement('button');b.type='button';b.className='fibron'+(n==='goma'?' goma':'');b.style.setProperty('--c',c);
+    b.setAttribute('role','radio');b.setAttribute('aria-label',n==='goma'?'Goma (borrar una parte)':'Fibrón '+n);b.setAttribute('aria-checked',c===color?'true':'false');b.dataset.c=c;fib.appendChild(b)});
+  fib.addEventListener('click',e=>{const b=e.target.closest('.fibron');if(!b)return;color=b.dataset.c;fib.querySelectorAll('.fibron').forEach(x=>x.setAttribute('aria-checked',x===b?'true':'false'))});
+  function cargar(){
+    const nombres=Object.keys(FIG);let n;do{n=nombres[Math.floor(Math.random()*nombres.length)]}while(n===figura&&nombres.length>1);figura=n;
+    lienzo.innerHTML=FIG[n];lienzo.setAttribute('aria-label','Figura para pintar: '+n);festejado=false;cta.hidden=true;
+    lienzo.querySelectorAll('.z').forEach(z=>{z.setAttribute('tabindex','0');z.setAttribute('role','button');z.setAttribute('aria-label','Pintar esta parte')});
+    msg.textContent='Te tocó '+n+'. Elegí un color y tocá cada parte.';
+  }
+  function pintar(z){
+    z.style.fill=color;z.dataset.p=color==='#ffffff'?'':'1';
+    if(!reduce)z.animate([{transform:'scale(.92)'},{transform:'scale(1.04)'},{transform:'scale(1)'}],{duration:260,easing:'ease-out'});
+    const zonas=[...lienzo.querySelectorAll('.z')],hechas=zonas.filter(x=>x.dataset.p).length;
+    if(hechas===zonas.length&&!festejado){festejado=true;festejo()}
+    else if(!festejado)msg.textContent=hechas+' de '+zonas.length+' partes pintadas';
+  }
+  function festejo(){
+    msg.textContent='¡Quedó genial! ¿La querés de verdad para pintar en casa?';
+    cta.href='https://wa.me/541131825636?text='+encodeURIComponent('Hola DO-IT-3D! Pinté '+figura+' en la web y quiero figuras para pintar');cta.hidden=false;
+    if(reduce)return;
+    const cols=['#e68b3a','#1ebbd7','#f2b8d2','#6bbf59','#f6c343'];
+    for(let i=0;i<18;i++){const s=document.createElement('span');s.className='chip';s.style.background=cols[i%cols.length];pinta.appendChild(s);
+      const a=Math.random()*Math.PI*2,d=90+Math.random()*90;
+      s.animate([{transform:'translate(-50%,-50%) scale(1)',opacity:1},{transform:`translate(calc(-50% + ${Math.cos(a)*d}px),calc(-50% + ${Math.sin(a)*d}px)) rotate(${Math.random()*360}deg) scale(.4)`,opacity:0}],{duration:900+Math.random()*400,easing:'cubic-bezier(.2,.8,.3,1)'}).onfinish=()=>s.remove()}
+  }
+  lienzo.addEventListener('click',e=>{const z=e.target.closest('.z');if(z)pintar(z)});
+  lienzo.addEventListener('keydown',e=>{const z=e.target.closest('.z');if(z&&(e.key==='Enter'||e.key===' ')){e.preventDefault();pintar(z)}});
+  document.getElementById('otraFigura').addEventListener('click',cargar);
+  document.getElementById('borrarFigura').addEventListener('click',()=>{lienzo.querySelectorAll('.z').forEach(z=>{z.style.fill='';delete z.dataset.p});festejado=false;cta.hidden=true;msg.textContent='Listo, como nueva. ¡A pintar!'});
+  cargar();
 })();
 </script>
 
