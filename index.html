@@ -180,12 +180,11 @@ a.reel{text-decoration:none}
 .amiga .nm{font-weight:700;font-size:16px;line-height:1.2}
 .amiga .ds{font-size:14px;color:var(--muted);line-height:1.3}
 #marcas .marca.sumate{display:grid}
-.amiga-box{display:grid;gap:8px;align-content:start}
-.amiga-hizo{justify-self:start;font:inherit;font-size:13px;font-weight:700;line-height:1.2;text-align:left;color:#fff;background:var(--naranja);border:0;border-radius:99px;padding:5px 11px 6px;cursor:pointer;box-shadow:0 3px 0 #a85a17;transition:transform .2s}
+.amiga-hizo{justify-self:start;margin-top:10px;font:inherit;font-size:15px;font-weight:700;line-height:1.2;text-align:left;color:#fff;background:var(--naranja);border:0;border-radius:99px;padding:5px 11px 6px;cursor:pointer;box-shadow:0 3px 0 #a85a17;transition:transform .2s}
 .amiga-hizo:hover{transform:translateY(-2px) rotate(-1deg)}
 .amiga-hizo:active{transform:translateY(2px);box-shadow:0 1px 0 #a85a17}
 .amiga-hizo:focus-visible{outline:3px solid var(--turquesa,#1ebbd7);outline-offset:2px}
-@media (max-width:640px){.amiga-hizo{font-size:12px;padding:4px 9px 5px}}
+@media (max-width:640px){.amiga-hizo{font-size:14px;padding:5px 11px 6px}}
 
 .otra{position:absolute;left:14px;bottom:12px;font-family:var(--f-display);font-size:16px;color:#fff;background:var(--turq);border:0;border-radius:99px;padding:5px 14px 7px;cursor:pointer;box-shadow:0 3px 0 #0e8aa1;transition:transform .12s}
 .otra:hover{transform:rotate(-3deg)}
@@ -480,6 +479,14 @@ html{overflow-x:hidden;overflow-x:clip}
           <img class="cover" src="fotos/carnero.jpg" alt="" aria-hidden="true" loading="lazy">
           <div class="meta"><h3>Un poco de todo</h3><p>Carteles con letras, porta celulares, chapitas, accesorios para el auto y más.</p></div>
         </article>
+        <article class="reel vid" tabindex="0" id="reelMarcas" data-historia="mushu-cangrejos,llaveros-poli,mushu-llaveros-colores,llaveros-italia,mushu-rayas,portacel-epsilon,mushu-imprimiendo.mp4,mushu-abejitas,mushu-exhibidor,mushu-llaveros-todos,mushu-bolsitas,mushu-etiqueta" data-wa="Hola DO-IT-3D! Tengo una marca y quiero algo con mi logo">
+          <img class="cover" src="fotos/marcas-collage.jpg" alt="" aria-hidden="true" loading="lazy">
+          <div class="meta"><h3>Para marcas</h3><p>Tiracierres, llaveros, etiquetas y exhibidores con tu logo.</p></div>
+        </article>
+        <article class="reel vid" tabindex="0" data-historia="ustedes-01,ustedes-02,ustedes-03,ustedes-04.mp4,ustedes-05,ustedes-06.mp4,ustedes-07,ustedes-08,ustedes-09,ustedes-10,ustedes-11,ustedes-12,ustedes-13.mp4,ustedes-14,ustedes-15,ustedes-16.mp4,ustedes-17,ustedes-18,ustedes-19.mp4">
+          <video src="videos/ustedes-04.mp4" poster="videos/ustedes-04.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
+          <div class="meta"><h3>Ustedes 💛</h3><p>Lo que nos mandan quienes ya tienen lo suyo. ¡Gracias por compartir!</p></div>
+        </article>
         <article class="reel vid" tabindex="0" data-historia="juegos.mp4">
           <video src="videos/juegos.mp4" poster="videos/videitos.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
           <div class="meta"><h3>Videitos del taller</h3><p>Un poco de todo lo que sale de la impresora, editado en el taller.</p></div>
@@ -681,15 +688,13 @@ html{overflow-x:hidden;overflow-x:clip}
       <div class="head">
         <h2>Marcas amigas</h2>
         <p>Empresas y emprendimientos que eligieron imprimir con nosotros. Tocá una para conocerla.</p>
+        <button type="button" class="amiga-hizo" data-abrir="#reelMarcas">🔖 Mirá lo que les hicimos</button>
       </div>
       <div class="amigas">
-          <div class="amiga-box">
-            <a class="amiga" href="https://www.instagram.com/mushubebes/" target="_blank" rel="noopener">
-              <span class="tile"><img src="marcas/mushu.png" alt="Mushu" loading="lazy"></span>
-              <span class="nm">Mushu</span><span class="ds">Ropa para bebés y niños</span>
-            </a>
-            <button type="button" class="amiga-hizo" data-historia="mushu-imprimiendo.mp4,mushu-cangrejos,mushu-barquitos,mushu-rayas,mushu-abejitas,mushu-rosa,mushu-mostaza,mushu-cama.mp4,mushu-pila-naranja,mushu-cuatro-rosa,mushu-naranja.mp4,mushu-cama-impresa,mushu-bolsitas,mushu-llaveros,mushu-llaveros-colores,mushu-llaveros-todos,mushu-llaveros-rosa,mushu-llaveros-verde-fuerte,mushu-llaveros-violeta,mushu-tamano,mushu-etiqueta,mushu-exhibidor" data-titulo="Lo que hicimos para Mushu" data-desc="Tiracierres, llaveros, etiquetas y exhibidor con su logo, en los colores de cada prenda." data-wa="Hola DO-IT-3D! Vi lo que hicieron para Mushu y quiero algo con mi marca">🔖 Les hicimos tiracierres</button>
-          </div>
+          <a class="amiga" href="https://www.instagram.com/mushubebes/" target="_blank" rel="noopener">
+            <span class="tile"><img src="marcas/mushu.png" alt="Mushu" loading="lazy"></span>
+            <span class="nm">Mushu</span><span class="ds">Ropa para bebés y niños</span>
+          </a>
           <a class="amiga" href="https://www.instagram.com/maxstoreoutdoor/" target="_blank" rel="noopener">
             <span class="tile"><img src="marcas/maxstore.jpg" alt="Maxstore Outdoor" loading="lazy" class="round"></span>
             <span class="nm">Maxstore Outdoor</span><span class="ds">Camping y outdoor</span>
@@ -1141,7 +1146,7 @@ html{overflow-x:hidden;overflow-x:clip}
   }
   reels.addEventListener('click',e=>{const a=e.target.closest('article.reel.vid');if(a)setTimeout(()=>abrir(a),reduce?0:180)});
   reels.addEventListener('keydown',e=>{const a=e.target.closest('article.reel.vid');if(a&&(e.key==='Enter'||e.key===' '))setTimeout(()=>abrir(a),reduce?0:180)});
-  document.addEventListener('click',e=>{const b=e.target.closest('.amiga-hizo');if(b)abrir(b)});
+  document.addEventListener('click',e=>{const b=e.target.closest('.amiga-hizo');if(!b)return;const r=b.dataset.abrir&&document.querySelector(b.dataset.abrir);abrir(r||b)});
   $('rvX').addEventListener('click',cerrar);bg.addEventListener('click',cerrar);
   $('rvTapL').addEventListener('click',anterior);$('rvTapR').addEventListener('click',siguiente);
   $('rvPrev').addEventListener('click',()=>tema(t-1,-1));$('rvNext').addEventListener('click',()=>tema(t+1,1));
